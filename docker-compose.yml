@@ -1,0 +1,49 @@
+# docker-compose version
+version: "3.9"
+
+services:
+  db:
+    container_name: db
+    image: postgres:15-alpine
+    # this data (/var/lib/postgres/data) keep in database
+    # bind volumes to keep database even if image container become down.
+    # from docker-compose is runing, bind all of data on that image to postgers/data directory (in my laptop).
+    volumes: 
+      -./postgres/data:/var/lib/postgres/data
+    restart: always
+    environment:
+     - POSTGRES_DB=postgres
+     - POSTGRES_USER=postgres
+     - POSTGRES_PASSWORD=postgres
+
+  backend:
+    container_name: backend
+    # build image with this specification
+    build:
+      # start point for directory (cwd for reach to requirements.txt file)
+      context: .
+      dockerfile: ./dockerfiles/dev/django/Dockerfile
+    restart: always
+    volumes:
+      # start directory is core
+      # bind /user/src/app to core directory
+      - ./core:/user/src/app
+    environment:
+      - DEBUG=True
+    depends_on:
+      - db
+
+  smtp4dev:
+    image: rnwood/smtp4dev:v3
+    restart: always
+    ports:
+      - '5000:80'
+      - '25:25'
+      - '143:143'
+    volumes:
+      - smtp4dev-data:/smtp4dev
+    environment:
+      - ServerOptions_HostName=smtp4dev
+
+volumes:
+  smtp4dev-data:
