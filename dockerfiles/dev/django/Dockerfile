@@ -1,5 +1,5 @@
 # image used for this project
-FROM python:3.11-slim-buster 
+FROM python:3.10-slim-buster 
 
 # who made this project
 LABEL maintainer="hrdip.2018@gmail.com"
