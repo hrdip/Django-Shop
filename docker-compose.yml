@@ -11,6 +11,9 @@ services:
     volumes: 
       - ./postgres/data:/var/lib/postgresql/data
     restart: always
+    # when use expose its mean other services can use this service
+    expose:
+      - 5432
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
@@ -23,12 +26,15 @@ services:
       # start point for directory (cwd for reach to requirements.txt file)
       context: .
       dockerfile: ./dockerfiles/dev/django/Dockerfile
-    command: django-admin startproject core .
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - 8000:8000
     volumes:
       # start directory is core
       # bind /user/src/app to core directory
       - ./core:/usr/src/app
     working_dir: /usr/src/app
+    restart: always
     environment:
       - DEBUG=True
     depends_on:
