@@ -1,5 +1,11 @@
 # main modules
 django >4.2,<4.3
+python-decouple
+typing_extensions==4.11.0
+asgiref==3.8.1
 
 # database modules
 psycopg[binary]
+psycopg==3.1.18
+sqlparse==0.4.4
+
