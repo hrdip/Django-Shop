@@ -84,8 +84,10 @@ class Profile(models.Model):
     created_date = models.DateField(auto_now_add=True)
     updated_date = models.DateField(auto_now=True)
 
-    def __str__(self):
-        return self.user.email
+    def get_fullname(self):
+        if self.first_name or self.last_name:
+            return self.first_name + " " + self.last_name
+        return "کاربر جدید"
 
 
 # signal properties
