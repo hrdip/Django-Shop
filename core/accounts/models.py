@@ -6,6 +6,8 @@ from django.contrib.auth.models import (
 )
 from django.utils.translation import ugettext_lazy as _
 from . validators import validate_cellphone_number
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 
 # Create your models here.
@@ -85,3 +87,10 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.email
 
+
+# signal properties
+# create profile base on Profile class
+@receiver(post_save, sender=User)
+def create_profile(sender, instance, created, **kwargs):
+    if created and instance.type == UserType.customer.value:
+        Profile.objects.create(user=instance)
