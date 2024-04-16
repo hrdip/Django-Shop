@@ -4,7 +4,7 @@ from django.contrib.auth.models import (
     AbstractBaseUser,
     PermissionsMixin,
 )
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from . validators import validate_cellphone_number
 from django.dispatch import receiver
 from django.db.models.signals import post_save
@@ -79,7 +79,7 @@ class Profile(models.Model):
     user = models.OneToOneField('User', on_delete=models.CASCADE)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    phone_number = models.CharField(max_length=11, validator=[validate_cellphone_number])
+    phone_number = models.CharField(max_length=11, validators=[validate_cellphone_number])
     image = models.ImageField(blank=True, null=True)
     created_date = models.DateField(auto_now_add=True)
     updated_date = models.DateField(auto_now=True)
