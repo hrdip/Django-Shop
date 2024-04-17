@@ -166,3 +166,7 @@ if SHOW_DEBUGGER_TOOLBAR:
 
 # for change default django user model ( activeate our custom user and profile models)
 AUTH_USER_MODEL = "accounts.User"
+
+# redirect to index.html after successful login
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
