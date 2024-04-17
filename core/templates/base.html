@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{% static 'vendor/bootstrap-icons/font/bootstrap-icons.css' %}">
     <!-- CSS Front Template -->
     <link rel="stylesheet" href="{% static 'css/theme.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/toastify/toastify.js' %}">
     <!-- we need extra css for each page -->
     {% block extra_css %}
     {% endblock extra_css %}
@@ -478,6 +479,9 @@
     <!-- JS Front -->
     <script src="{% static 'js/theme.min.js' %}"></script>
 
+    <!-- JS toastify -->
+    <script src="{% static 'vendor/toastify/toastify.js' %}"></script>
+
     <!-- JS Plugins Init. -->
     <script>
         (function () {
@@ -584,6 +588,7 @@
 
     {% block extra_js_no_compress %}
     {% endblock extra_js_no_compress %}
+    {% include 'messages.html' %}
 </body>
 
 </html>
