@@ -8,4 +8,4 @@ class AuthenticationForm (auth_forms.AuthenticationForm):
         # add this to the parent class for customization
         if not user.is_verified:
             raise ValidationError("user is not verified")
-        
+

@@ -139,7 +139,7 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+# email configuration 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = config("EMAIL_HOST",default="smtp4dev")
 EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool ,default=False)
