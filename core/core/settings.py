@@ -170,3 +170,5 @@ AUTH_USER_MODEL = "accounts.User"
 # redirect to index.html after successful login
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
+
+PASSWORD_RESET_TIMEOUT = 60 # seconds

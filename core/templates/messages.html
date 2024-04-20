@@ -42,5 +42,16 @@
                 }).showToast();
             </script>
         {% endif %}
-    </div>
+        {% if error_message %}
+        <script>
+            Toastify({
+                text: `{{ error_message }}`,
+                className: `error`,
+                style: {
+                    background: "red",
+                }
+            }).showToast();
+        </script>
+        {% endif %}
+        </div>
 {% endif %}
