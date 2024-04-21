@@ -3,7 +3,7 @@ from .models import ProductModel, ProductCategoryModel, ProductImageModel
 # Register your models here.
 
 class ProductModelAdmin(admin.ModelAdmin):
-    list_display = ("id", "title", "image", "stock", "status", "price", "created_date")
+    list_display = ("id", "title", "image", "stock", "status", "price", "discount_pecent", "created_date")
 
 class ProductCategoryModelAdmin(admin.ModelAdmin):
     list_display = ("id", "title", "created_date")

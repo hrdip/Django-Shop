@@ -1,5 +1,5 @@
 from django.db import models
-
+from decimal import Decimal
 # Create your models here.
 class ProductStatusType(models.IntegerChoices):
     publish = 1 ,("نمایش")
@@ -14,7 +14,7 @@ class ProductCategoryModel(models.Model):
     
     class Meta:
         ordering = ["-created_date"]
-
+ 
     def __str__(self):
         return self.title
 
@@ -37,6 +37,10 @@ class ProductModel(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def get_price(self):
+         
+        return round(self.price - (self.price*Decimal(self.discount_pecent/100)))
 
 class ProductImageModel(models.Model):
     product = models.ForeignKey("accounts.User", on_delete=models.CASCADE)
