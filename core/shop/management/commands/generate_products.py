@@ -36,7 +36,7 @@ class Command(BaseCommand):
             num_categories = random.randint(1,4)
             selected_categories = random.sample(list(categories), num_categories)
             
-            title = ' '.join([fake.word() for _ in range(1,3)])
+            title = fake.word()
 
             # generated slug with slugify like title
             # unicode for multy language

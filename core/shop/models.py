@@ -12,6 +12,11 @@ class ProductCategoryModel(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
     
+    class Meta:
+        ordering = ["-created_date"]
+
+    def __str__(self):
+        return self.title
 
 class ProductModel(models.Model):
     user = models.ForeignKey("accounts.User", on_delete=models.PROTECT)
@@ -30,6 +35,8 @@ class ProductModel(models.Model):
     class Meta:
         ordering = ["-created_date"]
 
+    def __str__(self):
+        return self.title
 
 class ProductImageModel(models.Model):
     product = models.ForeignKey("accounts.User", on_delete=models.CASCADE)
