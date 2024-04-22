@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent
 class Command(BaseCommand):
     help = 'Generate fake products'
     def handle(self, *args, **options):
-        fake = Faker(locale="fa_IR")
+        fake = Faker()
         user = User.objects.get(type=UserType.admin.value)
         # list of images
         image_list = [
@@ -29,14 +29,14 @@ class Command(BaseCommand):
         ]
         categories = ProductCategoryModel.objects.all()
         # generate 10 fake productscategories only with title an slug
-        for _ in range(10):
+        for _ in range(50):
             user = user
             
             # choise between 1 to 4 categories
             num_categories = random.randint(1,4)
             selected_categories = random.sample(list(categories), num_categories)
             
-            title = fake.word()
+            title = ' '.join([fake.word() for _ in range(1,3)])
 
             # generated slug with slugify like title
             # unicode for multy language

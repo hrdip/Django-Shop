@@ -15,12 +15,12 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0 ">
                         <li class="breadcrumb-item ps-2">
-                            <a href="/index.html">خرید کنید</a>
+                            <a href="{% url 'website:index' %}">خانه</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="/products-grid.html">محصولات</a>
+                            <a href="{% url 'shop:product-grid' %}">فروشگاه</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">توری</li>
+                        <li class="breadcrumb-item active" aria-current="page">محصولات</li>
                     </ol>
                 </nav>
                 <!-- End Breadcrumb -->
@@ -500,7 +500,7 @@
                                 </div>
 
                                 <h4 class="card-title">
-                                    <a class="text-dark" href="#">{{ object.title }}</a>
+                                    <a class="text-dark" href="{% url 'shop:product-detail' slug=object.slug %}">{{ object.title }}</a>
                                 </h4>
                                 <p class="card-text text-dark">{{ object.get_price }}$</i></p>
                             </div>
