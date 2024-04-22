@@ -63,336 +63,129 @@
                     <div class="w-100">
                         <!-- Form -->
                         <form>
-                            <div class="border-bottom pb-4 mb-4">
-                                <h5>جنسیت</h5>
-
-                                <div class="d-grid gap-2">
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="menCheckbox"
-                                            checked>
-                                        <label class="form-check-label" for="menCheckbox">مردان (73)</label>
+                            <form>
+                                <div class="border-bottom pb-4 mb-4">
+                                    <h5>جستو جوی کالا</h5>
+                                    <div class="d-grid gap-2">
+                                        <div class="form-group">
+                                            <label class="form-label d-flex" for="search-query-filter">جستو جو</label>
+                                            <input class="form-control" placeholder="واژه مورد نظر را وارد نمایید" type="text"
+                                                name="q" id="search-query-filter">
+                                        </div>
                                     </div>
-                                    <!-- End Checkboxes -->
-
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="womenCheckbox"
-                                            checked>
-                                        <label class="form-check-label" for="womenCheckbox">زنان (51)</label>
-                                    </div>
-                                    <!-- End Checkboxes -->
                                 </div>
-                            </div>
-
-                            <div class="border-bottom pb-4 mb-4">
-                                <h5>نام تجاری</h5>
-
-                                <div class="d-grid gap-2">
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="adidasCheckbox">
-                                        <label class="form-check-label" for="adidasCheckbox">آدیداس (16)</label>
+    
+                                <div class="border-bottom pb-4 mb-4">
+                                    <h5>قیمت</h5>
+                                    <div class="d-grid gap-2">
+                                        <div class="form-group">
+                                            <label class="form-label d-flex" for="min-price-filter">کمترین قیمت</label>
+                                            <input class="form-control" type="number" name="min_price"
+                                                placeholder="کمترین قیمت مد نظر" id="min-price-filter">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label d-flex" for="max-price-filter">بیشترین قیمت</label>
+                                            <input class="form-control" type="number" name="max_price"
+                                                placeholder="بیشترین قیمت مد نظر" id="max-price-filter">
+                                        </div>
                                     </div>
-                                    <!-- End Checkboxes -->
-
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value=""
-                                            id="newBalanceCheckbox">
-                                        <label class="form-check-label" for="newBalanceCheckbox">موجودی جدید (8)</label>
-                                    </div>
-                                    <!-- End Checkboxes -->
-
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="nikeCheckbox">
-                                        <label class="form-check-label" for="nikeCheckbox">نایک (35)</label>
-                                    </div>
-                                    <!-- End Checkboxes -->
-
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="fredPerryCheckbox">
-                                        <label class="form-check-label" for="fredPerryCheckbox">فرد پری (5)</label>
-                                    </div>
-                                    <!-- End Checkboxes -->
-
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="tnfCheckbox">
-                                        <label class="form-check-label" for="tnfCheckbox">جبهه شمالی (1)</label>
-                                    </div>
-                                    <!-- End Checkboxes -->
                                 </div>
-
-                                <!-- View More - Collapse -->
-                                <div class="collapse" id="collapseBrand">
+    
+                                <div class="border-bottom pb-4 mb-4">
+                                    <h5>دسته بندی</h5>
+    
                                     <div class="d-grid gap-2">
                                         <!-- Checkboxes -->
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="gucciCheckbox">
-                                            <label class="form-check-label" for="gucciCheckbox">گوچی (5)</label>
+                                            <input class="form-check-input" type="checkbox" value="" id="tshirtCheckbox"
+                                                checked>
+                                            <label class="form-check-label d-flex" for="tshirtCheckbox">تی شرت<span
+                                                    class="ms-auto">(73)</span></label>
                                         </div>
                                         <!-- End Checkboxes -->
-
+    
                                         <!-- Checkboxes -->
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="mangoCheckbox">
-                                            <label class="form-check-label" for="mangoCheckbox">انبه (1)</label>
+                                            <input class="form-check-input" type="checkbox" value="" id="shoesCheckbox">
+                                            <label class="form-check-label d-flex" for="shoesCheckbox">کفش <span
+                                                    class="ms-auto">(0)</span></label>
                                         </div>
                                         <!-- End Checkboxes -->
-                                    </div>
-                                </div>
-                                <!-- End View More - Collapse -->
-
-                                <!-- Link -->
-                                <a class="link-sm link-collapse" href="#collapseBrand" role="button"
-                                    data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseBrand">
-                                    <span class="link-collapse-default">بیشتر ببینید</span>
-                                    <span class="link-collapse-active">کمتر مشاهده کنید</span>
-                                </a>
-                                <!-- End Link -->
-                            </div>
-
-                            <div class="border-bottom pb-4 mb-4">
-                                <h5>اندازه</h5>
-
-                                <div class="d-grid gap-2">
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="sizeSCheckbox"
-                                            checked>
-                                        <label class="form-check-label" for="sizeSCheckbox">S (27)</label>
-                                    </div>
-                                    <!-- End Checkboxes -->
-
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="sizeMCheckbox">
-                                        <label class="form-check-label" for="sizeMCheckbox">M (18)</label>
-                                    </div>
-                                    <!-- End Checkboxes -->
-
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="sizeLCheckbox"
-                                            checked>
-                                        <label class="form-check-label" for="sizeLCheckbox">L (0)</label>
-                                    </div>
-                                    <!-- End Checkboxes -->
-
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="sizeXLCheckbox">
-                                        <label class="form-check-label" for="sizeXLCheckbox">XL (1)</label>
-                                    </div>
-                                    <!-- End Checkboxes -->
-
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="sizeXXLCheckbox">
-                                        <label class="form-check-label" for="sizeXXLCheckbox">XXL (2)</label>
-                                    </div>
-                                    <!-- End Checkboxes -->
-                                </div>
-                            </div>
-
-                            <div class="border-bottom pb-4 mb-4">
-                                <h5>دسته بندی</h5>
-
-                                <div class="d-grid gap-2">
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="tshirtCheckbox"
-                                            checked>
-                                        <label class="form-check-label" for="tshirtCheckbox">تی شرت (73)</label>
-                                    </div>
-                                    <!-- End Checkboxes -->
-
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="shoesCheckbox">
-                                        <label class="form-check-label" for="shoesCheckbox">کفش (0)</label>
-                                    </div>
-                                    <!-- End Checkboxes -->
-
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value=""
-                                            id="accessoriesCheckbox" checked>
-                                        <label class="form-check-label" for="accessoriesCheckbox">لوازم جانبی
-                                            (51)</label>
-                                    </div>
-                                    <!-- End Checkboxes -->
-
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="topsCheckbox"
-                                            checked>
-                                        <label class="form-check-label" for="topsCheckbox">برترین ها (5)</label>
-                                    </div>
-                                    <!-- End Checkboxes -->
-
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="bottomCheckbox">
-                                        <label class="form-check-label" for="bottomCheckbox">پایین (11)</label>
-                                    </div>
-                                    <!-- End Checkboxes -->
-                                </div>
-
-                                <!-- View More - Collapse -->
-                                <div class="collapse" id="collapseCategory">
-                                    <div class="d-grid gap-2">
+    
                                         <!-- Checkboxes -->
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value=""
-                                                id="shortsCheckbox">
-                                            <label class="form-check-label" for="shortsCheckbox">شورت (6)</label>
+                                                id="accessoriesCheckbox" checked>
+                                            <label class="form-check-label d-flex" for="accessoriesCheckbox">تجهیزات جانبی
+                                                <span class="ms-auto">(51)</span></label>
                                         </div>
                                         <!-- End Checkboxes -->
-
+    
                                         <!-- Checkboxes -->
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="hatsCheckbox">
-                                            <label class="form-check-label" for="hatsCheckbox">کلاه (3)</label>
+                                            <input class="form-check-input" type="checkbox" value="" id="topsCheckbox"
+                                                checked>
+                                            <label class="form-check-label d-flex" for="topsCheckbox">تاپ ها <span
+                                                    class="ms-auto">(5)</span></label>
                                         </div>
                                         <!-- End Checkboxes -->
-
+    
                                         <!-- Checkboxes -->
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="socksCheckbox">
-                                            <label class="form-check-label" for="socksCheckbox">جوراب (8)</label>
+                                            <input class="form-check-input" type="checkbox" value="" id="bottomCheckbox">
+                                            <label class="form-check-label d-flex" for="bottomCheckbox">پایین <span
+                                                    class="ms-auto">(11)</span></label>
                                         </div>
                                         <!-- End Checkboxes -->
                                     </div>
+    
+                                    <!-- View More - Collapse -->
+                                    <div class="collapse" id="collapseCategory">
+                                        <div class="d-grid gap-2">
+                                            <!-- Checkboxes -->
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                    id="shortsCheckbox">
+                                                <label class="form-check-label d-flex" for="shortsCheckbox">شلوار کوتاه
+                                                    <span class="ms-auto">(6)</span></label>
+                                            </div>
+                                            <!-- End Checkboxes -->
+    
+                                            <!-- Checkboxes -->
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="hatsCheckbox">
+                                                <label class="form-check-label d-flex" for="hatsCheckbox">کلاه <span
+                                                        class="ms-auto">(3)</span></label>
+                                            </div>
+                                            <!-- End Checkboxes -->
+    
+                                            <!-- Checkboxes -->
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="socksCheckbox">
+                                                <label class="form-check-label d-flex" for="socksCheckbox">جوراب <span
+                                                        class="ms-auto">(8)</span></label>
+                                            </div>
+                                            <!-- End Checkboxes -->
+                                        </div>
+                                    </div>
+                                    <!-- End View More - Collapse -->
+    
+                                    <!-- Link -->
+                                    <a class="link-sm link-collapse" href="#collapseCategory" role="button"
+                                        data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseCategory">
+                                        <span class="link-collapse-default">بیشتر ببینید</span>
+                                        <span class="link-collapse-active">کمتر مشاهده کنید</span>
+                                    </a>
+                                    <!-- End Link -->
                                 </div>
-                                <!-- End View More - Collapse -->
-
-                                <!-- Link -->
-                                <a class="link-sm link-collapse" href="#collapseCategory" role="button"
-                                    data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseCategory">
-                                    <span class="link-collapse-default">بیشتر ببینید</span>
-                                    <span class="link-collapse-active">کمتر مشاهده کنید</span>
-                                </a>
-                                <!-- End Link -->
-                            </div>
-
-                            <div class="border-bottom pb-4 mb-4">
-                                <h5>رتبه بندی</h5>
-
-                                <div class="d-grid gap-2">
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="1starCheckbox">
-                                        <label class="form-check-label" for="1starCheckbox">
-                                            <span class="d-flex gap-1">
-                                                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating"
-                                                    width="16">
-                                                <img src="{% static 'svg/illustrations/star-muted.svg' %}"
-                                                    alt="Review rating" width="16">
-                                                <img src="{% static 'svg/illustrations/star-muted.svg' %}"
-                                                    alt="Review rating" width="16">
-                                                <img src="{% static 'svg/illustrations/star-muted.svg' %}"
-                                                    alt="Review rating" width="16">
-                                                <img src="{% static 'svg/illustrations/star-muted.svg' %}"
-                                                    alt="Review rating" width="16">
-                                                (3)
-                                            </span>
-                                        </label>
-                                    </div>
-                                    <!-- End Checkboxes -->
-
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="2starCheckbox">
-                                        <label class="form-check-label" for="2starCheckbox">
-                                            <span class="d-flex gap-1">
-                                                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating"
-                                                    width="16">
-                                                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating"
-                                                    width="16">
-                                                <img src="{% static 'svg/illustrations/star-muted.svg' %}"
-                                                    alt="Review rating" width="16">
-                                                <img src="{% static 'svg/illustrations/star-muted.svg' %}"
-                                                    alt="Review rating" width="16">
-                                                <img src="{% static 'svg/illustrations/star-muted.svg' %}"
-                                                    alt="Review rating" width="16">
-                                                (10)
-                                            </span>
-                                        </label>
-                                    </div>
-                                    <!-- End Checkboxes -->
-
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="3starCheckbox">
-                                        <label class="form-check-label" for="3starCheckbox">
-                                            <span class="d-flex gap-1">
-                                                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating"
-                                                    width="16">
-                                                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating"
-                                                    width="16">
-                                                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating"
-                                                    width="16">
-                                                <img src="{% static 'svg/illustrations/star-muted.svg' %}"
-                                                    alt="Review rating" width="16">
-                                                <img src="{% static 'svg/illustrations/star-muted.svg' %}"
-                                                    alt="Review rating" width="16">
-                                                (3)
-                                            </span>
-                                        </label>
-                                    </div>
-                                    <!-- End Checkboxes -->
-
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="4starCheckbox">
-                                        <label class="form-check-label" for="4starCheckbox">
-                                            <span class="d-flex gap-1">
-                                                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating"
-                                                    width="16">
-                                                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating"
-                                                    width="16">
-                                                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating"
-                                                    width="16">
-                                                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating"
-                                                    width="16">
-                                                <img src="{% static 'svg/illustrations/star-muted.svg' %}"
-                                                    alt="Review rating" width="16">
-                                                (34)
-                                            </span>
-                                        </label>
-                                    </div>
-                                    <!-- End Checkboxes -->
-
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="5starCheckbox">
-                                        <label class="form-check-label" for="5starCheckbox">
-                                            <span class="d-flex gap-1">
-                                                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating"
-                                                    width="16">
-                                                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating"
-                                                    width="16">
-                                                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating"
-                                                    width="16">
-                                                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating"
-                                                    width="16">
-                                                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating"
-                                                    width="16">
-                                                (120)
-                                            </span>
-                                        </label>
-                                    </div>
-                                    <!-- End Checkboxes -->
+    
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-outline-primary btn-transition mb-3">اعمال
+                                        فیلتر</button>
+                                    <a href="{% url 'shop:product-grid' %}"
+                                        class="btn btn-outline-danger btn-transition mb-3">حذف فیلتر ها</a>
                                 </div>
-                            </div>
-
-                            <div class="d-grid">
-                                <button type="button" class="btn btn-white btn-transition">همه را پاک کن</button>
-                            </div>
+                            </form>
                         </form>
                         <!-- End Form -->
                     </div>
