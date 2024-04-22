@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent
 class Command(BaseCommand):
     help = 'Generate fake products'
     def handle(self, *args, **options):
-        fake = Faker()
+        fake = Faker(locale="fa_IR")
         user = User.objects.get(type=UserType.admin.value)
         # list of images
         image_list = [
@@ -28,7 +28,7 @@ class Command(BaseCommand):
             "./images/img10.jpg",
         ]
         categories = ProductCategoryModel.objects.all()
-        # generate 10 fake productscategories only with title an slug
+        # generate 50 fake productscategories only with title an slug
         for _ in range(50):
             user = user
             
@@ -43,7 +43,8 @@ class Command(BaseCommand):
             slug = slugify(title,allow_unicode=True)
             selected_image = random.choice(image_list)
             image_obj = File(file=open(BASE_DIR / selected_image,"rb"), name=Path(selected_image).name)
-            description = fake.paragraph(nb_sentences=1)
+            description = fake.paragraph(nb_sentences=10)
+            brief_description= fake.paragraph(nb_sentences=1)
             stock = fake.random_int(min=0,max=10)
             status = random.choice(ProductStatusType.choices)[0]
             price = fake.random_int(min=10, max=1000)
@@ -55,6 +56,7 @@ class Command(BaseCommand):
                 slug=slug,
                 image=image_obj,
                 description=description,
+                brief_description=brief_description,
                 stock=stock,
                 status=status,
                 price=price,

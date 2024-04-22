@@ -5,7 +5,7 @@ from ...models import ProductCategoryModel
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        fake = Faker()
+        fake = Faker(locale="fa_IR")
         # generate 10 fake productscategories only with title an slug
         for _ in range(10):
             title = fake.word()
