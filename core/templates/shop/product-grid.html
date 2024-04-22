@@ -80,6 +80,7 @@
                                 <div class="d-grid gap-2">
                                     <div class="form-group">
                                         <label class="form-label d-flex" for="min-price-filter">کمترین قیمت</label>
+                                        <!-- send query with name="min_price" and name="max_price"-->
                                         <input class="form-control" type="number" name="min_price"
                                             placeholder="کمترین قیمت مد نظر" id="min-price-filter">
                                     </div>
@@ -93,90 +94,17 @@
 
                             <div class="border-bottom pb-4 mb-4">
                                 <h5>دسته بندی</h5>
-
                                 <div class="d-grid gap-2">
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="tshirtCheckbox"
-                                            checked>
-                                        <label class="form-check-label d-flex" for="tshirtCheckbox">تی شرت<span
-                                                class="ms-auto">(73)</span></label>
-                                    </div>
-                                    <!-- End Checkboxes -->
-
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="shoesCheckbox">
-                                        <label class="form-check-label d-flex" for="shoesCheckbox">کفش <span
-                                                class="ms-auto">(0)</span></label>
-                                    </div>
-                                    <!-- End Checkboxes -->
-
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value=""
-                                            id="accessoriesCheckbox" checked>
-                                        <label class="form-check-label d-flex" for="accessoriesCheckbox">تجهیزات جانبی
-                                            <span class="ms-auto">(51)</span></label>
-                                    </div>
-                                    <!-- End Checkboxes -->
-
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="topsCheckbox"
-                                            checked>
-                                        <label class="form-check-label d-flex" for="topsCheckbox">تاپ ها <span
-                                                class="ms-auto">(5)</span></label>
-                                    </div>
-                                    <!-- End Checkboxes -->
-
-                                    <!-- Checkboxes -->
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="bottomCheckbox">
-                                        <label class="form-check-label d-flex" for="bottomCheckbox">پایین <span
-                                                class="ms-auto">(11)</span></label>
-                                    </div>
-                                    <!-- End Checkboxes -->
-                                </div>
-
-                                <!-- View More - Collapse -->
-                                <div class="collapse" id="collapseCategory">
-                                    <div class="d-grid gap-2">
-                                        <!-- Checkboxes -->
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value=""
-                                                id="shortsCheckbox">
-                                            <label class="form-check-label d-flex" for="shortsCheckbox">شلوار کوتاه
-                                                <span class="ms-auto">(6)</span></label>
-                                        </div>
-                                        <!-- End Checkboxes -->
-
-                                        <!-- Checkboxes -->
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="hatsCheckbox">
-                                            <label class="form-check-label d-flex" for="hatsCheckbox">کلاه <span
-                                                    class="ms-auto">(3)</span></label>
-                                        </div>
-                                        <!-- End Checkboxes -->
-
-                                        <!-- Checkboxes -->
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="socksCheckbox">
-                                            <label class="form-check-label d-flex" for="socksCheckbox">جوراب <span
-                                                    class="ms-auto">(8)</span></label>
-                                        </div>
-                                        <!-- End Checkboxes -->
+                                    <div class="mb-2 mb-sm-0 me-sm-2">
+                                        <select class="form-select form-select-sm" name="category_id"
+                                            id="category-id-filter">
+                                            <option value="" selected>انتخاب دسته بندی</option>
+                                            {% for category in categories %}
+                                            <option value="{{category.id}}">{{category.title}}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
                                 </div>
-                                <!-- End View More - Collapse -->
-
-                                <!-- Link -->
-                                <a class="link-sm link-collapse" href="#collapseCategory" role="button"
-                                    data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseCategory">
-                                    <span class="link-collapse-default">بیشتر ببینید</span>
-                                    <span class="link-collapse-active">کمتر مشاهده کنید</span>
-                                </a>
-                                <!-- End Link -->
                             </div>
 
                             <div class="d-grid">
