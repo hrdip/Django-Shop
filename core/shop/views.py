@@ -13,10 +13,17 @@ class ShopProductGridView(ListView):
     template_name = 'shop/product-grid.html'
     paginate_by = 9
 
+    # filters and get response
     def get_queryset(self):
         queryset = ProductModel.objects.filter(
             status=ProductStatusType.publish.value)
+        
+        # get query parameters with self.request.GET.get("q") from url
+        # := minimizing this code:  search_q=self.request.GET.get("q")    if search_q:     queryset = queryset.filter(title__icontains=search_q)
+        # := اگر وجود داشت تخصیص بده python 3.8 and up supported
         if search_q := self.request.GET.get("q"):
+            # we are filtering again that queryset in above
+            # if search_q is existing filter by that (title__icontains=search_q)
             queryset = queryset.filter(title__icontains=search_q)
         if category_id := self.request.GET.get("category_id"):
             queryset = queryset.filter(category__id=category_id)
