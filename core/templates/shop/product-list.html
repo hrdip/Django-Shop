@@ -367,7 +367,8 @@
 <!-- End Clients -->
 {% endblock content %}
 {% block extra_js %}
-<!-- jquery ready page and get url schema and parameters  -->
+<!-- 1- jquery ready page and get url schema and parameters  -->
+<!-- 2- jquery listener (listen to select change) and update or add our changes -->
 <script>
     $( document ).ready(function() {
         let current_url_params = new URLSearchParams(window.location.search)
@@ -377,6 +378,20 @@
         $("#max-price-filter").val(current_url_params.get("max_price") || "")
         $("#category-id-filter").val(current_url_params.get("category_id") || "")
         $("#order-by-filter").val(current_url_params.get("order_by") || "")
+    });
+    $('#page-size-filter').change(function() {
+        let current_url_params = new URLSearchParams(window.location.search) 
+        var selectedOption = $(this).val();
+        current_url_params.set("page_size", selectedOption)
+        let new_url = window.location.pathname + "?" + current_url_params.toString()
+        window.location.href = new_url
+    });
+    $('#order-by-filter').change(function () {
+        let current_url_params = new URLSearchParams(window.location.search)
+        var selectedOption = $(this).val();
+        current_url_params.set("order_by", selectedOption)
+        let new_url = window.location.pathname + "?" + current_url_params.toString()
+        window.location.href = new_url
     });
 </script>
 
