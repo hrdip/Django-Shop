@@ -261,28 +261,28 @@
                 <ul class="pagination justify-content-center">
                     {% if page_obj.has_previous %}
                     <li class="page-item ">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                        <button class="page-link" onclick="changePage('{{page_obj.previous_page_numberi}}')" aria-label="Previous">
                             <span aria-hidden="true">
                                 <i class="bi-chevron-double-right small"></i>
                             </span>
-                        </a>
+                        </button>
                     </li>
                     {% endif %}
                     {% for i in page_obj.paginator.page_range %}
                     {% if page_obj.number == i %}
                     <li class="page-item active"><a class="page-link">{{ i }}</a></li>
                     <!-- this elif handel only show 2 page number befor and anfter of current page -->
-                    {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %} <li class="page-item"><a
-                            class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %} <li class="page-item"><button
+                            class="page-link" onclick="changePage('{{i}}')">{{ i }}</button></li>
                         {% endif %}
                         {% endfor %}
                         {% if page_obj.has_next %}
                         <li class="page-item ">
-                            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                            <button class="page-link" onclick="changePage('{{page_obj.next_page_numberi}}')" aria-label="Next">
                                 <span aria-hidden="true">
                                     <i class="bi-chevron-double-left small"></i>
                                 </span>
-                            </a>
+                            </button>
                         </li>
                     {% endif %}
                 </ul>
@@ -393,6 +393,15 @@
         let new_url = window.location.pathname + "?" + current_url_params.toString()
         window.location.href = new_url
     });
+</script>
+<!-- when we go to the next page our filter are kept -->
+<script>
+    function changePage(page_number){
+        let current_url_params = new URLSearchParams(window.location.search)
+        current_url_params.set("page", page_number)
+        let new_url = window.location.pathname + "?" + current_url_params.toString()
+        window.location.href = new_url
+    }
 </script>
 
 {% endblock extra_js %}
