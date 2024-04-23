@@ -1,14 +1,33 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.views import View
-from . models import ContactUsModel
-from .forms import ContactUsForm
+from . models import ContactUsModel, NewsLetterModel
+from .forms import ContactUsForm, NewsLetterForm
 from django.contrib import messages
 # Create your views here.
 
 
 class IndexView(TemplateView):
     template_name = 'website/index.html'
+    model = NewsLetterModel()
+
+    def get(self, request):
+        form = NewsLetterForm()
+        context = {'form':form}
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        form = NewsLetterForm(request.POST)
+        if form.is_valid():
+            # Process the form data
+            email = form.cleaned_data['email']
+            # Save the form data or perform any desired actions
+            form.save()
+            messages.add_message(request,messages.SUCCESS,'your ticket submitted successfully')  # Redirect to a success page
+        else:
+            messages.add_message(request,messages.ERROR,'your ticket didnt submitted')
+        context = {'form':form}
+        return render(request, self.template_name, context)
 
 class ContactUsView(View):
     template_name = 'website/contact.html'

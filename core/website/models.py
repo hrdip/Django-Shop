@@ -13,3 +13,6 @@ class ContactUsModel(models.Model):
 
     def __str__(self):
         return self.subject
+    
+class NewsLetterModel(models.Model):
+    email = models.EmailField(blank=False, null=False)
