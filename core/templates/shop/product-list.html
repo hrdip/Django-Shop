@@ -133,22 +133,28 @@
                     <div class="d-sm-flex justify-content-sm-end align-items-center">
                         <!-- Select -->
                         <div class="mb-2 mb-sm-0 me-sm-2">
-                            <select class="form-select form-select-sm">
-                                <option value="Relevance" selected>ارتباط</option>
-                                <option value="mostRecent">اخیرا</option>
+                            <select class="form-select form-select-sm" name="order_by" id="order-by-filter">
+                                <option value="" selected>مرتب سازی</option>
+                                <option value="-created_date">جدیدترین</option>
+                                <option value="created_date">قدیمی ترین</option>
+                                <option value="-price">بیشترین قیمت</option>
+                                <option value="price">کمترین قیمت</option>
                             </select>
                         </div>
                         <!-- End Select -->
 
                         <!-- Select -->
                         <div class="mb-2 mb-sm-0 me-sm-2">
-                            <select class="form-select form-select-sm">
-                                <option value="alphabeticalOrderSelect1" selected>A-to-Z</option>
-                                <option value="alphabeticalOrderSelect2">Z-to-A</option>
+                            <select class="form-select form-select-sm" name="page_size" id="page-size-filter">
+                                <option value="" selected>تعداد در صفحه</option>
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
                             </select>
                         </div>
                         <!-- End Select -->
-
                         <!-- Nav -->
                         <ul class="nav nav-segment">
                             <li class="nav-item">
@@ -360,3 +366,18 @@
 </div>
 <!-- End Clients -->
 {% endblock content %}
+{% block extra_js %}
+<!-- jquery ready page and get url schema and parameters  -->
+<script>
+    $( document ).ready(function() {
+        let current_url_params = new URLSearchParams(window.location.search)
+        $("#page-size-filter").val(current_url_params.get("page_size") || "")
+        $("#search-query-filter").val(current_url_params.get("q") || "")
+        $("#min-price-filter").val(current_url_params.get("min_price") || "")
+        $("#max-price-filter").val(current_url_params.get("max_price") || "")
+        $("#category-id-filter").val(current_url_params.get("category_id") || "")
+        $("#order-by-filter").val(current_url_params.get("order_by") || "")
+    });
+</script>
+
+{% endblock extra_js %}

@@ -11,7 +11,11 @@ from django.core.exceptions import FieldError
 
 class ShopProductGridView(ListView):
     template_name = 'shop/product-grid.html'
-    paginate_by = 9
+    paginate_by = 9 
+
+    def get_paginate_by(self, queryset):
+        # if page_size are existing return it else return paginate_by
+        return self.request.GET.get('page_size', self.paginate_by)
 
     # filters and get response
     def get_queryset(self):
