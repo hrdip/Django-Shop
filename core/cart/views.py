@@ -11,7 +11,7 @@ class SessionAddProduct(View):
         product_id = request.POST.get("product_id")
         if product_id:
             cart.add_product(product_id)
-        return JsonResponse({"cart":cart.get_cart_dict(),"total_quantity":cart.get_total_quantity})
+        return JsonResponse({"cart":cart.get_cart_dict(),"total_quantity":cart.get_total_quantity()})
     
 
 class SessionCartSummery(TemplateView):

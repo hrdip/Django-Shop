@@ -239,8 +239,8 @@
                                     <div class="card-footer">
                                         <div class="d-flex gap-2">
                                             <button type="button"
-                                                class="btn btn-outline-primary btn-sm btn-transition rounded-pill">افزودن به
-                                                سبد خرید</button>
+                                                class="btn btn-outline-primary btn-sm btn-transition rounded-pill" onclick="addCartItem('{{object.id}}')">افزودن به سبد خرید    
+                                            </button>
                                             <button type="button"
                                                 class="btn btn-soft-secondary btn-sm btn-transition rounded-pill">
                                                 <i class="bi-heart ms-1"></i>افزودن به علایق</button>
@@ -394,14 +394,6 @@
         window.location.href = new_url
     });
 </script>
-<!-- when we go to the next page our filter are kept -->
-<script>
-    function changePage(page_number){
-        let current_url_params = new URLSearchParams(window.location.search)
-        current_url_params.set("page", page_number)
-        let new_url = window.location.pathname + "?" + current_url_params.toString()
-        window.location.href = new_url
-    }
-</script>
+
 
 {% endblock extra_js %}
