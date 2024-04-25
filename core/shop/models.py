@@ -42,6 +42,9 @@ class ProductModel(models.Model):
     def __str__(self):
         return self.title
     
+    def get_int_price(self):
+        return round(self.price - (self.price*Decimal(self.discount_pecent/100)))
+    
     def get_price(self):
         return '{:,}'.format(round(self.price - (self.price*Decimal(self.discount_pecent/100))))
 

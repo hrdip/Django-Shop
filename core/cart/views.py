@@ -1,3 +1,4 @@
+from typing import Any
 from django.shortcuts import render
 from django.views.generic import View, TemplateView
 from django.http import JsonResponse
@@ -17,3 +18,13 @@ class SessionAddProduct(View):
 class SessionCartSummery(TemplateView):
     
     template_name = "cart/cart_summery.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cart = CartSession(self.request.session)
+        cart_items = cart.get_cart_items()
+        total_amount = cart.get_total_payment_amount()
+        context["cart_items"] = cart_items
+        context["total_quantity"] = cart.get_total_quantity()
+        context["total_payment_price"] = total_amount
+        return context
