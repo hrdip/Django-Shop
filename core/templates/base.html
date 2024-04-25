@@ -89,12 +89,18 @@
                             <!-- End Search -->
 
                             <!-- Shopping Cart -->
+                            <!-- 
                             <button type="button" class="btn btn-ghost-secondary btn-icon" type="button"
                                 data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarShoppingCart"
                                 aria-controls="offcanvasNavbarShoppingCart">
                                 <i class="bi-basket"></i>
                                 <span class="cart-item-count ">3</span>
                             </button>
+                            -->
+                            <a href="{% url 'cart:session-cart-summery' %}" class="btn btn-ghost-secondary btn-icon">
+                                <i class="bi-basket"></i>
+                                <span class="cart-item-count ">{{cart.get_total_quantity}}</span>
+                            </a>
                             <!-- End Shopping Cart -->
                             {% if request.user.is_authenticated %}
                                 <button class="btn btn-ghost-secondary btn-icon" id="dropdownMenuLink"
