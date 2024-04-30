@@ -32,7 +32,7 @@
                                         <h5><a class="text-dark" href="{% url 'shop:product-detail' slug=item.product_obj.slug %}">{{ item.product_obj.title}}</a></h5>
 
                                         <div class="d-block d-sm-none">
-                                            <h5 class="mb-1">${{ item.total_price}}</h5>
+                                            <h5 class="mb-1">$ {{ item.total_price}}</h5>
                                         </div>
 
                                         <div class="d-grid gap-1">
@@ -48,6 +48,13 @@
                                                 </span>
                                             </div>
                                         </div>
+                                        <div class="d-grid gap-1">
+                                            <div class="text-body">
+                                                <span class="small">قیمت هر واحد:</span>
+                                                <span
+                                                    class="fw-semibold small">$ {{item.product_obj.get_int_price}}</span>
+                                            </div>
+                                        </div>
                                     </div>
                                     <!-- End Col -->
 
@@ -58,7 +65,7 @@
                                                 <select class="form-select form-select-sm mb-3">
                                                     {% with ''|center:item.product_obj.stock as range %}
                                                     {% for _ in range %}
-                                                    <option value="{{ forloop.counter }}">{{ forloop.counter }}</option>
+                                                    <option value="{{ forloop.counter }}"{% if forloop.counter  == item.quantity %} selected {% endif %}>{{ forloop.counter }}</option>
                                                     {% endfor %}
                                                     {% endwith %}
                                                 </select>
@@ -83,7 +90,7 @@
                                     <!-- End Col -->
 
                                     <div class="col-4 col-sm-2 d-none d-sm-inline-block text-right">
-                                        <span class="h5 d-block mb-1">${{ item.total_price}}</span>
+                                        <span class="h5 d-block mb-1">$ {{ item.total_price}}</span>
                                     </div>
                                     <!-- End Col -->
                                 </div>
@@ -125,7 +132,7 @@
 
                                 <dl class="row">
                                     <dt class="col-sm-6">جمع</dt>
-                                    <dd class="col-sm-12 text-sm-end mb-0">{{total_payment_price}}$</dd>
+                                    <dd class="col-sm-12 text-sm-end mb-0"> $ {{total_payment_price}}</dd>
                                 </dl>
                                 <!-- End Row -->
                             </div>

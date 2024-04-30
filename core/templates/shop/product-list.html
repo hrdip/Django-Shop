@@ -208,7 +208,7 @@
                                         </h4>
                                         {% if object.is_discounted %}
                                             <p class="card-text text-dark fs-4">
-                                                <span class="formatted-price">{{object.get_price}}$</span>
+                                                <span class="formatted-price">{{object.get_int_price}}$</span>
                                                 <span class="text-body me-1 fs-6 formatted-price text-decoration-line-through">{{object.price}}$</span>
                                             </p>
                                         {% else %}

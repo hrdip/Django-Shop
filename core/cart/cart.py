@@ -9,9 +9,6 @@ class CartSession:
         # whith setdefault we get and update the session 
         self._cart = self.session.setdefault("cart", {"items": []})
 
-        
-   
-
     def clear(self):
         self._cart = self.session["cart"] = {"items": []}
         self.save()
