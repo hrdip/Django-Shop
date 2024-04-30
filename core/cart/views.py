@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from .cart import CartSession
 # Create your views here.
 
-class SessionAddProduct(View):
+class SessionAddProductView(View):
     
     def post(self, request, *args, **kwargs):
         cart = CartSession(request.session)
@@ -15,7 +15,7 @@ class SessionAddProduct(View):
         return JsonResponse({"cart":cart.get_cart_dict(),"total_quantity":cart.get_total_quantity()})
     
 
-class SessionCartSummery(TemplateView):
+class SessionCartSummeryView(TemplateView):
     
     template_name = "cart/cart_summery.html"
 
@@ -28,3 +28,14 @@ class SessionCartSummery(TemplateView):
         context["total_quantity"] = cart.get_total_quantity()
         context["total_payment_price"] = total_amount
         return context
+    
+
+class SessionUpdateProductQuantityView(View):
+    
+    def post(self, request, *args, **kwargs):
+        cart = CartSession(request.session)
+        product_id = request.POST.get("product_id")
+        quantity = request.POST.get("quantity")
+        if product_id and quantity :
+            cart.update_product_quantity(product_id, quantity)
+        return JsonResponse({"cart":cart.get_cart_dict(),"total_quantity":cart.get_total_quantity()})

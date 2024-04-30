@@ -550,6 +550,7 @@
     <script>
         function addCartItem(product_id){
             console.log(product_id)
+            // request
             $.ajax({
                 url: "{% url 'cart:session-add-product' %}",
                 method: 'POST',
@@ -558,6 +559,7 @@
                     csrfmiddlewaretoken: '{{ csrf_token }}'
                 },
                 success: function (response) {
+                    // update quantity in the cart when we add new item and no need to refresh the page
                     $("#total-cart-item-count").html(response.total_quantity)
                     console.log(response);
                     // do something with the response data

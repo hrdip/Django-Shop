@@ -62,7 +62,7 @@
                                         <div class="row">
                                             <div class="col-auto">
                                                 <!-- Select -->
-                                                <select class="form-select form-select-sm mb-3">
+                                                <select class="form-select form-select-sm mb-3" onchange="changeProductQuantity('{{item.product_id}}', this.value)">
                                                     {% with ''|center:item.product_obj.stock as range %}
                                                     {% for _ in range %}
                                                     <option value="{{ forloop.counter }}"{% if forloop.counter  == item.quantity %} selected {% endif %}>{{ forloop.counter }}</option>
@@ -174,4 +174,32 @@
     <!-- End Row -->
 </div>
 <!-- End Content -->
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function changeProductQuantity(product_id,quantity) {
+        // request
+        $.ajax({
+                url: "{% url 'cart:session-update-product-quantity' %}",
+                method: 'POST',
+                data: {
+                    product_id: product_id,
+                    quantity: quantity,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    // if its ok we need to refresh the page
+                    window.location.reload();
+                    console.log(response);
+                    // do something with the response data
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                    // handel the error case
+                }
+            });
+    }
+</script>
+
 {% endblock %}

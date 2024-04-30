@@ -8,10 +8,6 @@ class CartSession:
         # if cart is not found, make a new one 
         # whith setdefault we get and update the session 
         self._cart = self.session.setdefault("cart", {"items": []})
-
-    def clear(self):
-        self._cart = self.session["cart"] = {"items": []}
-        self.save()
         
     def add_product(self, product_id):
         for item in self._cart["items"]:
@@ -50,6 +46,20 @@ class CartSession:
     
     def get_total_payment_amount(self):
         return self.total_payment_price
+    
+    def update_product_quantity(self,product_id, quantity):
+        for item in self._cart["items"]:
+            if product_id == item["product_id"]:
+                item["quantity"] = int(quantity)
+                break
+        else:
+            return
+        self.save()
+
+    
+    def clear(self):
+        self._cart = self.session["cart"] = {"items": []}
+        self.save()
 
     def save(self):
         self.session.modified = True
