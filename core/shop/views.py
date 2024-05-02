@@ -7,6 +7,7 @@ from django.views.generic import (
 )
 from .models import ProductModel, ProductStatusType, ProductCategoryModel
 from django.core.exceptions import FieldError
+from cart.cart import CartSession
 # Create your views here.
 
 class ShopProductGridView(ListView):
@@ -92,3 +93,10 @@ class ShopProductListView(ListView):
 class ShopProductDetailView(DetailView):
     template_name = 'shop/product-detail.html'
     queryset = ProductModel.objects.filter(status=ProductStatusType.publish.value)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cart = CartSession(self.request.session)
+        product = self.get_object()
+        return context
+     

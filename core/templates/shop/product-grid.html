@@ -186,10 +186,12 @@
                                         <span class="badge bg-success rounded-pill">جدید</span>
                                     </div>
                                 <div class="card-pinned-top-end">
+                                    {% if request.user.is_authenticated %}
                                     <button type="button" class="btn btn-outline-secondary btn-xs btn-icon rounded-circle"
                                         data-bs-toggle="tooltip" data-bs-placement="top" title="افزودن به علایق">
                                         <i class="bi-heart"></i>
                                     </button>
+                                    {% endif %}
                                 </div>
                             </div>
 

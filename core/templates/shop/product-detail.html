@@ -75,7 +75,7 @@
 
             <!-- Price -->
             <div class="mb-5">
-                <span class="d-block mb-2">قیمت کل:</span>
+                <span class="d-block mb-2">قیمت واحد:</span>
                 {% if object.is_discounted %}
                     <div class="d-flex align-items-center">
                         <h3 class="mb-0">{{ object.get_int_price }}$ </h3>
@@ -83,18 +83,38 @@
                     </div>
                 {% else %}
                     <div class="d-flex align-items-center">
-                        <h3 class="mb-0">{{ object.get_int_price }}$ </h3>
+                        <h3 class="mb-0">$ {{ object.get_int_price }} </h3>
                     </div>
                 {% endif %}
             </div>
+            <div class="mb-5">
+                <span class="d-block mb-2">قیمت کل:</span>
+                    <div class="d-flex align-items-center">
+                        <h3 class="mb-0">$ {{ item.total_price}} </h3>
+                    </div>
+            </div>
             <!-- End Price -->
-
+            <div class="col-sm-3">
+                <div class="row">
+                    <div class="col-auto">
+                        <!-- Select -->
+                        <select class="form-select form-select-sm mb-3" onchange="changeProductQuantityInDetail('{{item.product_id}}', this.value)">
+                            {% with ''|center:object.stock as range %}
+                            {% for _ in range %}
+                            <option value="{{ forloop.counter }}"{% if forloop.counter  == item.quantity %} selected {% endif %}>{{ forloop.counter }}</option>
+                            {% endfor %}
+                            {% endwith %}
+                        </select>
+                        <!-- End Select -->
+                    </div>
+                </div>
+            </div>
             <!-- Quantity -->
             <div class="quantity-counter mb-3">
                 <div class="js-quantity-counter row align-items-center">
                     <div class="col">
                         <span class="d-block small">تعداد را انتخاب کنید</span>
-                        <input class="js-result form-control form-control-quantity-counter" type="text" value="1">
+                        <input class="js-result form-control form-control-quantity-counter" type="text" value="21">
                     </div>
                     <!-- End Col -->
 
@@ -196,9 +216,8 @@
             <!-- End Accordion -->
 
             <div class="d-grid mb-4">
-                <button type="button" class="btn btn-primary btntransition">افزودن به سبد خرید</button>
+                <button type="button" class="btn btn-primary btntransition" onclick="addCartItem('{{object.id}}') ">افزودن به سبد خرید</button>
             </div>
-
             <!-- Media -->
             <div class="d-flex align-items-center">
                 <div class="flex-shrink-0">
@@ -623,3 +642,30 @@
 </div>
 <!-- End Subscribe -->
 {% endblock content %}
+{% block extra_js %}
+<script>
+    function changeProductQuantityInDetail(product_id,quantity) {
+        // request
+        $.ajax({
+                url: "{% url 'cart:session-update-product-quantity' %}",
+                method: 'POST',
+                data: {
+                    product_id: product_id,
+                    quantity: quantity,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    console.log(response);
+                    // do something with the response data
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                    // handel the error case
+                }
+            });
+    }
+
+</script>
+
+
+{% endblock %}

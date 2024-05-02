@@ -28,7 +28,7 @@ class SessionCartSummeryView(TemplateView):
         context["total_quantity"] = cart.get_total_quantity()
         context["total_payment_price"] = total_amount
         return context
-    
+     
 
 class SessionUpdateProductQuantityView(View):
     
@@ -49,3 +49,4 @@ class SessionRemoveProductView(View):
         if product_id:
             cart.remove_product(product_id)
         return JsonResponse({"cart":cart.get_cart_dict(),"total_quantity":cart.get_total_quantity()})
+    

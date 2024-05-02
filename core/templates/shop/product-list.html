@@ -241,9 +241,12 @@
                                             <button type="button"
                                                 class="btn btn-outline-primary btn-sm btn-transition rounded-pill" onclick="addCartItem('{{object.id}}')">افزودن به سبد خرید    
                                             </button>
+                                            {% if request.user.is_authenticated %}
                                             <button type="button"
                                                 class="btn btn-soft-secondary btn-sm btn-transition rounded-pill">
-                                                <i class="bi-heart ms-1"></i>افزودن به علایق</button>
+                                                <i class="bi-heart ms-1"></i>افزودن به علایق
+                                            </button>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
