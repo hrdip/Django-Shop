@@ -68,8 +68,7 @@
                 <label for="currentPasswordLabel" class="col-sm-3 col-form-label form-label">رمز عبور فعلی</label>
 
                 <div class="col-sm-9">
-                    <input type="password" class="form-control text-center" name="old_password" id="currentPasswordLabel"
-                        placeholder="Enter current password" aria-label="Enter current password">
+                    {{form.old_password}}
                 </div>
             </div>
             <!-- End Form -->
@@ -79,8 +78,7 @@
                 <label for="newPassword" class="col-sm-3 col-form-label form-label">رمز عبور جدید</label>
 
                 <div class="col-sm-9">
-                    <input type="password" class="form-control text-center" name="new_password1" id="newPassword"
-                        placeholder="Enter new password" aria-label="Enter new password">
+                    {{form.new_password1}}
                 </div>
             </div>
             <!-- End Form -->
@@ -92,9 +90,7 @@
 
                 <div class="col-sm-9">
                     <div class="mb-3">
-                        <input type="password" class="form-control text-center" name="new_password2"
-                            id="confirmNewPasswordLabel" placeholder="Confirm your new password"
-                            aria-label="Confirm your new password">
+                        {{form.new_password2}}
                     </div>
 
                     <h5>الزامات رمز عبور:</h5>
