@@ -94,6 +94,8 @@ class Profile(models.Model):
 # create profile base on Profile class
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
-    if created and instance.type == UserType.customer.value:
+    # disable this if, becuase we want admin and customer has profile properties
+    # if created and instance.type == UserType.customer.value:
+    if created:
         # pk for equality user id and profile id insted of auto increment
         Profile.objects.create(pk=instance.pk, user=instance)
