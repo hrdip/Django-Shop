@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth import views as auth_views
 from . forms import AuthenticationForm
 from django.core.mail import send_mail
+
 # Create your views here.
 
 class CustomLoginView(auth_views.LoginView):
