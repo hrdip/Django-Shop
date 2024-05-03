@@ -59,4 +59,4 @@ class AdminProductEditView(HasAdminAccessPermission, SuccessMessageMixin, LoginR
     success_message = "product was successfully updated"
 
     def get_success_url(self):
-        return reverse_lazy("dashboard:admin:product-detail", kwargs={"pk",self.get_object().pk})
+        return reverse_lazy("dashboard:admin:product-edit", kwargs={"pk":self.get_object().pk})
