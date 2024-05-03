@@ -53,6 +53,9 @@ class ProductModel(models.Model):
 
     def is_discounted(self):
         return self.discount_pecent != 0
+    
+    def is_published(self):
+        return self.status == ProductStatusType.publish.value
 
 class ProductImageModel(models.Model):
     product = models.ForeignKey("accounts.User", on_delete=models.CASCADE)
