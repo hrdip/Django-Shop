@@ -2,7 +2,7 @@ from django.views.generic import  TemplateView, UpdateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from dashboard.permissions import HasAdminAccessPermission
 from django.contrib.auth import views as auth_views
-from dashboard.admin.forms import AdminPasswordChangeForm, AdminProfileEditForm
+from dashboard.admin.forms import AdminPasswordChangeForm, AdminProfileEditForm, ProductForm
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from accounts.models import Profile
@@ -50,3 +50,13 @@ class AdminProductListView(HasAdminAccessPermission, LoginRequiredMixin, ListVie
         context["categories"] = ProductCategoryModel.objects.all()
         return context
     
+
+class AdminProductEditView(HasAdminAccessPermission, SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    
+    template_name = 'dashboard/admin/products/product-edit.html'
+    queryset = ProductModel.objects.all()
+    form_class = ProductForm
+    success_message = "product was successfully updated"
+
+    def get_success_url(self):
+        return reverse_lazy("dashboard:admin:product-detail", kwargs={"pk",self.get_object().pk})

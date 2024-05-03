@@ -140,7 +140,7 @@
                             <td>{{ object.discount_pecent }}</td>
                             <td>
                                 <a class="btn btn-sm btn-icon btn-ghost-secondary"
-                                    href="./admin-account-products-single.html"><i class="bi-pencil-square"></i></a>
+                                    href="{% url 'dashboard:admin:product-edit' pk=object.pk %}"><i class="bi-pencil-square"></i></a>
                                     {% if object.is_published %}
                                 <a class="btn btn-sm btn-icon btn-ghost-primary" target="_blank" href="{% url 'shop:product-detail' slug=object.slug %}"><i
                                         class="bi-eye"></i></a>
