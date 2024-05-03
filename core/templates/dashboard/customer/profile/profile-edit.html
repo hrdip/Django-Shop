@@ -65,30 +65,25 @@
 
             <div class="col-sm-9">
                 <!-- Media -->
-                <div class="d-flex align-items-center">
+                <!-- for image update our form need endcode type: 'enctype' -->
+                <form action="{% url 'dashboard:customer:customer-profile-image-edit' %}" method="post"
+                    class="d-flex align-items-center" enctype="multipart/form-data" >
+                {% csrf_token %}
                     <!-- Avatar -->
                     <label class="avatar avatar-xl avatar-circle" for="avatarUploader">
-                        <img id="avatarImg" class="avatar-img" src="{{request.user.user_profile.image.url}}"
+                        <img id="avatarImg"  class="avatar-img" src="{{request.user.user_profile.image.url}}"
                             alt="Image Description">
                     </label>
 
                     <div class="d-grid d-sm-flex gap-2 me-4">
-                        <div class="form-attachment-btn btn btn-primary btn-sm">آپلود عکس
-                            <input type="file" class="js-file-attach form-attachment-btn-label" id="avatarUploader"
-                                data-hs-file-attach-options='{
-                            "textTarget": "#avatarImg",
-                            "mode": "image",
-                            "targetAttr": "src",
-                            "resetTarget": ".js-file-attach-reset-img",
-                            "resetImg": "{% static ' /img/160x160/img1.jpg' %}", "allowTypes" : [".png", ".jpeg"
-                                , ".jpg" ] }'>
+                        <div class="form-attachment-btn btn btn-white btn-sm">آپلود عکس
+                            <input type="file" name="image" class="form-attachment-btn-label" id="avatarUploader" accept="image/png, image/jpg, image/jpeg">
                         </div>
                         <!-- End Avatar -->
 
-                        <button type="button" class="js-file-attach-reset-img btn btn-white btn-sm">حذف
-                            کردن</button>
+                        <button type="submit" class="btn btn-primary btn-sm">ارسال </button>
                     </div>
-                </div>
+                </form>
                 <!-- End Media -->
             </div>
         </div>

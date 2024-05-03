@@ -6,7 +6,8 @@ from dashboard.customer.forms import CustomerPasswordChangeForm, CustomerProfile
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from accounts.models import Profile
-
+from django.shortcuts import redirect
+from django.contrib import messages
 # Create your views here.
 
 
@@ -29,3 +30,23 @@ class CustomerProfileEditView(LoginRequiredMixin, HasCustomerAccessPermission, S
     # get the data of this user (becuse we want updated profile)
     def get_object(self,queryset=None):
         return Profile.objects.get(user=self.request.user)
+    
+
+class CustomerProfileImageEditView(LoginRequiredMixin,HasCustomerAccessPermission, SuccessMessageMixin, UpdateView):
+    
+    # in UpdateView we need template_name but for here we dont want use, then we need to explain to UpdateView we dont need to use yor 'get' and only want use your 'post'
+    http_method_names = ['post']
+    model = Profile
+    fields = ['image']
+    success_url = reverse_lazy("dashboard:customer:customer-profile-edit")
+    success_message = "Your profile image was successfully updated."
+    
+    # get the data of this user (becuse we want updated profile)
+    def get_object(self,queryset=None):
+        return Profile.objects.get(user=self.request.user)
+    
+    # if faild to update
+    # if form is not valid need to redirect to template_name and we are not set. then we need to explain redirect to success url
+    def form_invalid(self, form):
+        messages.error(self.request,"updated image has failed please try again")
+        return redirect (self.success_url)
