@@ -171,11 +171,5 @@
     }
 </script>
 
-<script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}">
-</script>
 
-<script>
-    CKEDITOR.replace('{{ form.description.id_for_label }}');
-    CKEDITOR.replace('{{ form.brief_description.id_for_label }}');
-</script>
 {% endblock %}

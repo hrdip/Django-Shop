@@ -18,6 +18,7 @@
     <!-- CSS Front Template -->
     <link rel="stylesheet" href="{% static 'css/theme.min.css' %}">
     <link rel="stylesheet" href="{% static 'vendor/toastify/toastify.js' %}">
+    <link href="{% static 'ckeditor/ckeditor/ckeditor.js' %}" rel="stylesheet">
     <!-- we need extra css for each page -->
     {% block extra_css %}
     {% endblock extra_css %}
@@ -570,6 +571,14 @@
                 }
             });
         }
+    </script>
+       <!-- JS CKEDITOR -->
+       <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}">
+    </script>
+    
+    <script>
+        CKEDITOR.replace('{{ form.description.id_for_label }}');
+        CKEDITOR.replace('{{ form.brief_description.id_for_label }}');
     </script>
     {% block extra_js %}
 
