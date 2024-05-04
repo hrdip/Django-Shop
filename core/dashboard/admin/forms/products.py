@@ -1,5 +1,5 @@
 from django import forms
-from shop.models import ProductModel
+from shop.models import ProductModel, ProductImageModel
 from ckeditor.widgets import CKEditorWidget
 
 class ProductForm(forms.ModelForm):
@@ -34,3 +34,18 @@ class ProductForm(forms.ModelForm):
             "image",
             "stock",
         ]
+
+
+class ProductImageForm(forms.ModelForm):
+
+
+    class Meta:
+        model = ProductImageModel
+        fields = [
+            "file",
+        ]
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['file'].widget.attrs['class'] = 'form-control'
+        self.fields['file'].widget.attrs['accept'] = 'image/png, image/jpg, image/jpeg'

@@ -17,6 +17,15 @@
                                     <img class="card-img" src="{{ object.image.url }}" alt="Image Description">
                                 </div>
                             </div>
+                            {% for product_image in object.product_images.all %}
+                            <div class="swiper-slide">
+                                <div class="card card-bordered shadow-none">
+                                    <img class="avatar-img" src="{{product_image.file.url}}"
+                                        alt="Image Description">
+                                </div>
+                            </div>
+                           {% endfor %}
+                          
                             <!-- End Slide -->
                         </div>
 
@@ -37,6 +46,14 @@
                                             alt="Image Description">
                                     </a>
                                 </div>
+                                {% for product_image in object.product_images.all %}
+                                <div class="swiper-slide">
+                                    <a class="avatar avatar-circle" href="javascript:;">
+                                        <img class="avatar-img" src="{{product_image.file.url}}"
+                                            alt="Image Description">
+                                    </a>
+                                </div>
+                               {% endfor %}
                                 <!-- End Slide -->
                             </div>
                         </div>
