@@ -1,4 +1,11 @@
-from django.views.generic import  TemplateView, UpdateView, ListView, DeleteView
+from django.views.generic import (
+    View,
+    TemplateView,
+    UpdateView,
+    ListView,
+    DeleteView,
+    CreateView
+)
 from django.contrib.auth.mixins import LoginRequiredMixin
 from dashboard.permissions import HasAdminAccessPermission
 from django.contrib.auth import views as auth_views
@@ -52,7 +59,6 @@ class AdminProductListView(HasAdminAccessPermission, LoginRequiredMixin, ListVie
     
 
 class AdminProductEditView(HasAdminAccessPermission, SuccessMessageMixin, LoginRequiredMixin, UpdateView):
-    
     template_name = 'dashboard/admin/products/product-edit.html'
     queryset = ProductModel.objects.all()
     form_class = ProductForm
@@ -61,8 +67,26 @@ class AdminProductEditView(HasAdminAccessPermission, SuccessMessageMixin, LoginR
     def get_success_url(self):
         return reverse_lazy("dashboard:admin:product-edit", kwargs={"pk":self.get_object().pk})
     
+
 class AdminProductDeleteView(HasAdminAccessPermission, SuccessMessageMixin, LoginRequiredMixin, DeleteView):
     template_name = 'dashboard/admin/products/product-delete.html'
     queryset = ProductModel.objects.all()
     success_message = "product was successfully deleted"
     success_url = reverse_lazy("dashboard:admin:product-list")
+
+
+class AdminProductCreateView(HasAdminAccessPermission, SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    template_name = 'dashboard/admin/products/product-create.html'
+    queryset = ProductModel.objects.all()
+    form_class = ProductForm
+    success_message = "product was successfully created"
+
+    def form_valid(self, form):
+        # product model need User
+        form.instance.user = self.request.user
+        super().form_valid(form)
+        return redirect(reverse_lazy("dashboard:admin:product-edit", kwargs={"pk":form.instance.pk}))
+
+    def get_success_url(self):
+        return reverse_lazy("dashboard:admin:product-list")
+    
