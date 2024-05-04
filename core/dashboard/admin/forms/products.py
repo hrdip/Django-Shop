@@ -1,7 +1,10 @@
 from django import forms
 from shop.models import ProductModel
+from ckeditor.widgets import CKEditorWidget
 
 class ProductForm(forms.ModelForm):
+    description = forms.CharField(widget=CKEditorWidget())
+    brief_description = forms.CharField(widget=CKEditorWidget())
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

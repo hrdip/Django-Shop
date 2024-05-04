@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'shop',
     'cart',
     'dashboard',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -176,3 +177,12 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
 PASSWORD_RESET_TIMEOUT = 60 # seconds
+
+# CKEDITOR properties
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 300,
+        'width': 900,
+    },
+}

@@ -1,7 +1,7 @@
 from django.db import models
 from decimal import Decimal
 from django.core.validators import MaxValueValidator, MinValueValidator
-
+from ckeditor.fields import RichTextField
 
 # Create your models here.
 class ProductStatusType(models.IntegerChoices):
@@ -27,8 +27,8 @@ class ProductModel(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(allow_unicode=True)
     image = models.ImageField(default="/default/product-image.png", upload_to="product/img/")
-    description = models.TextField()
-    brief_description = models.TextField(null=True, blank=True)
+    description = RichTextField()
+    brief_description = RichTextField()
     stock = models.PositiveIntegerField(default=0)
     status = models.IntegerField(choices=ProductStatusType.choices, default=ProductStatusType.draft.value)
     price = models.DecimalField(default=0, max_digits=10, decimal_places=0)
