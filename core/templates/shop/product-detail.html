@@ -118,7 +118,7 @@
                         <select class="form-select form-select-sm mb-3" onchange="changeProductQuantityInDetail('{{item.product_id}}', this.value)">
                             {% with ''|center:object.stock as range %}
                             {% for _ in range %}
-                            <option value="{{ forloop.counter }}"{% if forloop.counter  == item.quantity %} selected {% endif %}>{{ forloop.counter }}</option>
+                            <option value="{{ forloop.counter }}"{% if forloop.counter  == product_quantity %} selected {% endif %}>{{ forloop.counter }}</option>
                             {% endfor %}
                             {% endwith %}
                         </select>
@@ -131,7 +131,7 @@
                 <div class="js-quantity-counter row align-items-center">
                     <div class="col">
                         <span class="d-block small">تعداد را انتخاب کنید</span>
-                        <input class="js-result form-control form-control-quantity-counter" type="text" value="21">
+                        <input class="js-result form-control form-control-quantity-counter" type="text" value="{{ product_quantity }}">
                     </div>
                     <!-- End Col -->
 
@@ -157,7 +157,6 @@
                 <!-- End Row -->
             </div>
             <!-- End Quantity -->
-
             <!-- Accordion -->
             <div class="accordion mb-5" id="shopCartAccordion">
                 <!-- Collapse -->

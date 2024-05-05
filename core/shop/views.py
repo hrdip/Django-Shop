@@ -8,6 +8,8 @@ from django.views.generic import (
 from .models import ProductModel, ProductStatusType, ProductCategoryModel
 from django.core.exceptions import FieldError
 from cart.cart import CartSession
+from cart.models import CartItemModel
+from django.shortcuts import get_object_or_404
 # Create your views here.
 
 class ShopProductGridView(ListView):
@@ -98,5 +100,15 @@ class ShopProductDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         cart = CartSession(self.request.session)
         product = self.get_object()
+        cart_item = None
+        for item in cart.get_cart_dict()["items"]:
+            if item["product_id"] == str(product.id):
+                cart_item = item
+                break
+        
+        if cart_item is not None:
+            context['product_quantity'] = cart_item["quantity"]
+        else:
+            context['product_quantity'] = 0
         return context
      

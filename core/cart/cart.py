@@ -34,13 +34,6 @@ class CartSession:
         # if we need return quantity of item:
         # total_quantity = len(self._cart["items"])
 
-    # def get_product_quantities(self, product_id):
-    #     quantities = {}
-    #     for item in self._cart["items"]:
-    #         item_product_id = item['product_id']
-    #         quantity = item['quantity']
-    #         quantities[item_product_id] = quantity
-    #     return quantities
 
     def get_cart_items(self):
         cart_items = self._cart["items"]
@@ -117,9 +110,6 @@ class CartSession:
         # exclude items are existed in database and session, if have another production in database delete them
         CartItemModel.objects.filter(cart=cart).exclude(product__id__in=session_product_ids).delete()
 
-
-
-    
     def clear(self):
         self._cart = self.session["cart"] = {"items": []}
         self.save()
