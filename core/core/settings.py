@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'cart',
     'dashboard',
     'ckeditor',
-]
+    'order',
+] 
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

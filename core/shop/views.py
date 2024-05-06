@@ -1,4 +1,3 @@
-from typing import Any
 from django.shortcuts import render
 from django.views.generic import (
     TemplateView,
@@ -8,8 +7,6 @@ from django.views.generic import (
 from .models import ProductModel, ProductStatusType, ProductCategoryModel
 from django.core.exceptions import FieldError
 from cart.cart import CartSession
-from cart.models import CartItemModel
-from django.shortcuts import get_object_or_404
 # Create your views here.
 
 class ShopProductGridView(ListView):

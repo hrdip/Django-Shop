@@ -18,7 +18,7 @@ class SessionAddProductView(View):
         return JsonResponse({"cart":cart.get_cart_dict(),"total_quantity":cart.get_total_quantity()})
     
 
-class SessionCartSummeryView(TemplateView):
+class CartSummeryView(TemplateView):
     
     template_name = "cart/cart_summery.html"
 
