@@ -311,15 +311,17 @@
                 </div>
                 <!-- End Heading -->
 
-                <form>
+                <form action="{% url 'shop:news-letter' %}" method="post">
+                    {% csrf_token %}
                     <!-- Input Card -->
                     <div class="input-card input-card-pill input-card-sm border mb-3">
                         <div class="input-card-form">
                             <label for="subscribeForm" class="form-label visually-hidden">ایمیل را وارد کنید</label>
-                            <input type="text" class="form-control form-control-lg" id="subscribeForm"
-                                placeholder="ایمیل خود را وارد کنید" aria-label="ایمیل خود را وارد کنید">
+                            <input type="email" class="form-control form-control-lg" name="email"
+                                placeholder="ایمیل خود را وارد نمایید" aria-label="ایمیل خود را وارد کنید" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}">
+                                <span class="invalid-feedback">لطفا یک آدرس ایمیل معتبر وارد کنید.</span>
                         </div>
-                        <button type="button" class="btn btn-primary btn-lg rounded-pill">ثبت نام</button>
+                        <button type="submit" class="btn btn-primary btn-lg rounded-pill">ثبت نام</button>
                     </div>
                     <!-- End Input Card -->
                 </form>

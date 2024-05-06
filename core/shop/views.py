@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import (
+    View,
     TemplateView,
     ListView,
     DetailView,
@@ -7,6 +8,11 @@ from django.views.generic import (
 from .models import ProductModel, ProductStatusType, ProductCategoryModel
 from django.core.exceptions import FieldError
 from cart.cart import CartSession
+from website.models import NewsLetterModel
+from website.forms import NewsLetterForm
+from django.contrib import messages
+from django.urls import reverse_lazy
+from django.shortcuts import redirect
 # Create your views here.
 
 class ShopProductGridView(ListView):
@@ -109,3 +115,23 @@ class ShopProductDetailView(DetailView):
             context['product_quantity'] = 0
         return context
      
+class NewsLetterView(View):
+    http_method_names = ['post']
+    model = NewsLetterModel()
+    form_class = NewsLetterForm
+
+    def post(self, request):
+        form = NewsLetterForm(request.POST)
+        if form.is_valid():
+            # Process the form data
+            email = form.cleaned_data['email']
+            # Save the form data or perform any desired actions
+            form.save()
+            messages.add_message(request,messages.SUCCESS,'your ticket submitted successfully')  # Redirect to a success page
+            return redirect(self.get_success_url())
+        else:
+            messages.add_message(request,messages.ERROR,'your ticket didnt submitted')
+            return redirect('shop:product-grid')
+    
+    def get_success_url(self):
+        return reverse_lazy('shop:product-grid')

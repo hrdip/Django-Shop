@@ -95,7 +95,7 @@ class AdminProductCreateView(HasAdminAccessPermission, SuccessMessageMixin, Logi
 
     def get_success_url(self):
         return reverse_lazy("dashboard:admin:product-list")
-     
+    
 
 class AdminProductAddImageView(LoginRequiredMixin, HasAdminAccessPermission, CreateView):
     http_method_names = ['post']

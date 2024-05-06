@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load shop_tags %}
-
+{% block extra_css %}
+    <!-- CSS Front Template -->
+    <link rel="stylesheet" href="{% static 'css/theme.min.css' %}">
+{% endblock %}
 {% block content %}
 <!-- Hero -->
 <div class="position-relative">
@@ -396,14 +399,16 @@
                 </div>
                 <!-- End Heading -->
 
-                <form action="{% url 'website:index' %}" method="post">
+                <form action="{% url 'website:news-letter' %}" method="post">
                     {% csrf_token %}
                     <!-- Input Card -->
                     <div class="input-card input-card-pill input-card-sm border mb-3">
                         <div class="input-card-form">
                             <label for="subscribeForm" class="form-label visually-hidden">ایمیل را وارد کنید</label>
-                            <input type="text" class="form-control form-control-lg" name="email"
-                                placeholder="ایمیل خود را وارد نمایید" aria-label="ایمیل خود را وارد کنید">
+                            <input type="email" class="form-control form-control-lg" name="email"
+                                placeholder="ایمیل خود را وارد نمایید" aria-label="ایمیل خود را وارد کنید" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
+                                title="Enter a valid email address">
+                                <span class="invalid-feedback">لطفا یک آدرس ایمیل معتبر وارد کنید.</span>
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg rounded-pill">ثبت نام</button>
                     </div>

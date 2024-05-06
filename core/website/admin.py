@@ -11,7 +11,7 @@ class CustomContactUsAdmin(admin.ModelAdmin):
 
 class CustomNewsLetterAdmin(admin.ModelAdmin):
     model = NewsLetterModel
-    list_display = ("email",)
+    list_display = ("email",'created_date')
 
 admin.site.register(ContactUsModel, CustomContactUsAdmin)
 admin.site.register(NewsLetterModel, CustomNewsLetterAdmin)

@@ -9,4 +9,5 @@ urlpatterns = [
     # path("product/<slug:slug>/detail/", views.ShopProductDetailView.as_view(),name="product-detail"),
     # support persian slug
     re_path(r"product/(?P<slug>[-\w]+)/detail/", views.ShopProductDetailView.as_view(),name="product-detail"),
+    path("news-letter-view/", views.NewsLetterView.as_view(),name="news-letter"),
 ]

@@ -16,3 +16,5 @@ class ContactUsModel(models.Model):
     
 class NewsLetterModel(models.Model):
     email = models.EmailField(blank=False, null=False)
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
