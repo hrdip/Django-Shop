@@ -1,6 +1,4 @@
 from django.views.generic import (
-    View,
-    TemplateView,
     UpdateView,
     ListView,
     DeleteView,
@@ -8,14 +6,12 @@ from django.views.generic import (
 )
 from django.contrib.auth.mixins import LoginRequiredMixin
 from dashboard.permissions import HasAdminAccessPermission
-from django.contrib.auth import views as auth_views
-from dashboard.admin.forms import AdminPasswordChangeForm, AdminProfileEditForm, ProductForm
+from dashboard.admin.forms import ProductForm
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
-from accounts.models import Profile
 from django.shortcuts import redirect
 from django.contrib import messages
-from shop.models import ProductModel, ProductCategoryModel, ProductStatusType, ProductImageModel
+from shop.models import ProductModel, ProductCategoryModel, ProductImageModel
 from django.core.exceptions import FieldError
 from ..forms.products import ProductImageForm
 # Create your views here.
