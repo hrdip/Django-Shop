@@ -1,7 +1,7 @@
 from django.views.generic import View, TemplateView, FormView
 from order.permissions import HasCustomerAccessPermission
 from django.contrib.auth.mixins import LoginRequiredMixin
-from order.models import UserAddressModel, OrderModel
+from order.models import UserAddressModel, OrderModel, OrderItemModel
 from order.forms import CheckOutForm
 from cart.models import CartModel
 from django.urls import reverse_lazy
@@ -9,6 +9,7 @@ from website.models import NewsLetterModel
 from website.forms import NewsLetterForm
 from django.contrib import messages
 from django.shortcuts import redirect
+from cart.cart import CartSession
 # Create your views here.
 
 
@@ -26,7 +27,9 @@ class OrderCheckoutView(LoginRequiredMixin, HasCustomerAccessPermission, FormVie
         cleaned_data = form.cleaned_data
         address = cleaned_data['address_id']
         cart = CartModel.objects.get(user=self.request.user)
+        # get caet_items
         cart_items = cart.cart_items.all()
+        # make order with cart items we et
         order = OrderModel.objects.create(
             user = self.request.user,
             address = address.address,
@@ -34,8 +37,22 @@ class OrderCheckoutView(LoginRequiredMixin, HasCustomerAccessPermission, FormVie
             city = address.city,
             zip_code = address.zip_code,
         )
-        order.total_price = cart.calculate_total_price()
+        # make order item with cart items we et
+        for item in cart_items:
+            OrderItemModel.objects.create(
+                # order come from order object we make with OrderModel class in the top line
+                order = order,
+                product = item.product,
+                quantity = item.quantity,
+                price = item.product.get_price(),
+            )
+        # after get cart_items for the order we need clean cart_items for next time order
+        # remove product from cart
+        cart_items.delete()
+        CartSession(self.request.session).clear()
+        order.total_price = order.calculate_total_price()
         order.save()
+
         return super().form_valid(form)
     
     def form_invalid(self, form):
