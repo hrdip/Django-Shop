@@ -1,7 +1,7 @@
 from django.views.generic import View, TemplateView, FormView
 from order.permissions import HasCustomerAccessPermission
 from django.contrib.auth.mixins import LoginRequiredMixin
-from order.models import UserAddressModel, OrderModel, OrderItemModel
+from order.models import UserAddressModel, OrderModel, OrderItemModel, CouponModel
 from order.forms import CheckOutForm
 from cart.models import CartModel
 from django.urls import reverse_lazy
@@ -11,6 +11,8 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from cart.cart import CartSession
 from decimal import Decimal
+from django.http import JsonResponse
+from django.utils import timezone
 # Create your views here.
 
 
@@ -25,46 +27,65 @@ class OrderCheckoutView(LoginRequiredMixin, HasCustomerAccessPermission, FormVie
         return kwargs
     
     def form_valid(self, form):
+        user = self.request.user
         cleaned_data = form.cleaned_data
         address = cleaned_data['address_id']
         coupon = cleaned_data['coupon']
-        cart = CartModel.objects.get(user=self.request.user)
-        # get caet_items
-        cart_items = cart.cart_items.all()
-        # make order with cart items we et
-        order = OrderModel.objects.create(
-            user = self.request.user,
-            address = address.address,
-            state = address.state,
-            city = address.city,
-            zip_code = address.zip_code,
-        )
-        # make order item with cart items we et
-        for item in cart_items:
-            OrderItemModel.objects.create(
-                # order come from order object we make with OrderModel class in the top line
-                order = order,
-                product = item.product,
-                quantity = item.quantity,
-                price = item.product.get_price(),
-            )
+
+        cart = CartModel.objects.get(user=user)
+        # make order with cart items we get
+        order = self.create_order(address)
+
+        # make order item with cart items we get
+        self.create_order_items(order, cart)
         # after get cart_items for the order we need clean cart_items for next time order
         # remove product from cart
-        cart_items.delete()
-        CartSession(self.request.session).clear()
+        self.clear_cart(cart)
+        
+        # get total price from cart_items and put on order total price form
         total_price = order.calculate_total_tax_price()
+        
+        self.apply_coupon(coupon, order, user, total_price)
+        order.save()
+        return super().form_valid(form)
+    
+    # make order with cart items we get
+    def create_order(self, address):
+        return OrderModel.objects.create(
+            user=self.request.user,
+            address=address.address,
+            state=address.state,
+            city=address.city,
+            zip_code=address.zip_code,
+        )
+    
+    # make order item with cart items we et
+    def create_order_items(self, order, cart):
+        for item in cart.cart_items.all():
+            OrderItemModel.objects.create(
+                # order come from order object we make with OrderModel class in the create_order function
+                order=order,
+                product=item.product,
+                quantity=item.quantity,
+                price=item.product.get_price(),
+            )
+
+    # after get cart_items for the order we need clear cart_items for next time order
+    # remove product from cart
+    def clear_cart(self, cart):
+        cart.cart_items.all().delete()
+        CartSession(self.request.session).clear()
+
+    def apply_coupon(self, coupon, order, user, total_price):
         if coupon:
             total_price = total_price - round((total_price * Decimal(coupon.discount_percent/100)))
             order.coupon = coupon
             # signal for detect this user used coupon
-            coupon.used_by.add(self.request.user)
+            coupon.used_by.add(user)
             coupon.save()
 
         order.total_price = total_price
-        order.save()
-
-        return super().form_valid(form)
-    
+        
     def form_invalid(self, form):
         return super().form_invalid(form)
 
@@ -78,11 +99,50 @@ class OrderCheckoutView(LoginRequiredMixin, HasCustomerAccessPermission, FormVie
         context['total_price'] = total_price
         context['total_tax'] = total_tax
         context['total_tax_price'] = total_tax_price
-
         return context
     
+
 class OrderCompletedView(LoginRequiredMixin, HasCustomerAccessPermission, TemplateView):
     template_name = 'order/order-completed.html'
+
+
+class ValidateCouponView(LoginRequiredMixin, HasCustomerAccessPermission, View):
+    
+    def post(self, request, *args, **kwargs):
+        code = request.POST.get('code')
+        user = self.request.user
+        status_code = 200
+        message = "coupon successfully applied"
+        total_price = 0
+        total_tax = 0
+        total_tax_price = 0
+        total_discount = 0
+        try:
+            coupon = CouponModel.objects.get(code=code)
+        
+        except CouponModel.DoesNotExist:
+            return JsonResponse({"message":"Invalid Coupon Code"}, status=404)
+        
+        # if coupon exists check expiration date, quantity of used coupon, used befor with same user
+        else:
+            if coupon.used_by.count() >= coupon.max_limit_usage:
+                status_code,message = 403,"Coupon limit exceeded"
+            
+            elif coupon.expiration_date and coupon.expiration_date < timezone.now():
+                status_code,message = 403,"Coupon Expired"
+                
+            
+            elif user in coupon.used_by.all():
+                status_code,message = 403,"Coupon already used"
+
+            else:
+                cart = CartModel.objects.get(user=self.request.user)
+                total_price = cart.calculate_total_price()
+                total_tax = round((total_price*9)/100)
+                total_tax_price = total_price + total_tax
+                total_discount = round(total_tax_price - (total_tax_price * (coupon.discount_percent/100)))
+        return JsonResponse({"message":message, "total_tax":total_tax, "total_tax_price":total_tax_price, "total_discount":total_discount, "total_price":total_price}, status=status_code)
+
 
 class NewsLetterView(View):
     http_method_names = ['post']
