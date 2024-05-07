@@ -1,7 +1,7 @@
 from django.views.generic import View, TemplateView, FormView
 from order.permissions import HasCustomerAccessPermission
 from django.contrib.auth.mixins import LoginRequiredMixin
-from order.models import UserAddressModel
+from order.models import UserAddressModel, OrderModel
 from order.forms import CheckOutForm
 from cart.models import CartModel
 from django.urls import reverse_lazy
@@ -25,6 +25,17 @@ class OrderCheckoutView(LoginRequiredMixin, HasCustomerAccessPermission, FormVie
     def form_valid(self, form):
         cleaned_data = form.cleaned_data
         address = cleaned_data['address_id']
+        cart = CartModel.objects.get(user=self.request.user)
+        cart_items = cart.cart_items.all()
+        order = OrderModel.objects.create(
+            user = self.request.user,
+            address = address.address,
+            state = address.state,
+            city = address.city,
+            zip_code = address.zip_code,
+        )
+        order.total_price = cart.calculate_total_price()
+        order.save()
         return super().form_valid(form)
     
     def form_invalid(self, form):

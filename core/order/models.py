@@ -33,7 +33,7 @@ class OrderModel(models.Model):
     user = models.ForeignKey("accounts.User", on_delete=models.PROTECT)
     
     # order address informations
-    addres = models.CharField(max_length=250)
+    address = models.CharField(max_length=250)
     state = models.CharField(max_length=50)
     city = models.CharField(max_length=50)
     zip_code = models.CharField(max_length=50)
