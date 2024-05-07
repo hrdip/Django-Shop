@@ -10,6 +10,7 @@ from website.forms import NewsLetterForm
 from django.contrib import messages
 from django.shortcuts import redirect
 from cart.cart import CartSession
+from decimal import Decimal
 # Create your views here.
 
 
@@ -26,6 +27,7 @@ class OrderCheckoutView(LoginRequiredMixin, HasCustomerAccessPermission, FormVie
     def form_valid(self, form):
         cleaned_data = form.cleaned_data
         address = cleaned_data['address_id']
+        coupon = cleaned_data['coupon']
         cart = CartModel.objects.get(user=self.request.user)
         # get caet_items
         cart_items = cart.cart_items.all()
@@ -50,7 +52,15 @@ class OrderCheckoutView(LoginRequiredMixin, HasCustomerAccessPermission, FormVie
         # remove product from cart
         cart_items.delete()
         CartSession(self.request.session).clear()
-        order.total_price = order.calculate_total_price()
+        total_price = order.calculate_total_tax_price()
+        if coupon:
+            total_price = total_price - round((total_price * Decimal(coupon.discount_percent/100)))
+            order.coupon = coupon
+            # signal for detect this user used coupon
+            coupon.used_by.add(self.request.user)
+            coupon.save()
+
+        order.total_price = total_price
         order.save()
 
         return super().form_valid(form)
