@@ -95,10 +95,12 @@ class OrderCheckoutView(LoginRequiredMixin, HasCustomerAccessPermission, FormVie
         total_price = cart.calculate_total_price()
         total_tax = round((total_price*9)/100)
         total_tax_price = total_price + total_tax
+        total_discount = total_tax_price + 0
         context['addresses'] = UserAddressModel.objects.filter(user=self.request.user)
         context['total_price'] = total_price
         context['total_tax'] = total_tax
         context['total_tax_price'] = total_tax_price
+        context['total_discount'] = total_discount
         return context
     
 
