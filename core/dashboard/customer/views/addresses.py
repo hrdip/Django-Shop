@@ -4,7 +4,7 @@ from dashboard.permissions import HasCustomerAccessPermission
 from dashboard.customer.forms import UserAddressForm
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
-from order.models import UserAddresModel
+from order.models import UserAddressModel
 from django.shortcuts import redirect
 from django.core.exceptions import FieldError
 # Create your views here.
@@ -15,7 +15,7 @@ class CustomerAddressListView(HasCustomerAccessPermission, LoginRequiredMixin, L
 
     # filters and get response
     def get_queryset(self):
-        queryset = UserAddresModel.objects.filter(user=self.request.user)
+        queryset = UserAddressModel.objects.filter(user=self.request.user)
         
         # get query parameters with self.request.GET.get("q") from url
         # := minimizing this code:  search_q=self.request.GET.get("q")    if search_q:     queryset = queryset.filter(title__icontains=search_q)
@@ -38,7 +38,7 @@ class CustomerAddressCreateView(HasCustomerAccessPermission, SuccessMessageMixin
     success_message = "address was successfully created"
 
     def get_queryset(self):
-        return UserAddresModel.objects.filter(user=self.request.user)
+        return UserAddressModel.objects.filter(user=self.request.user)
     
     def form_valid(self, form):
         # product model need User
@@ -56,7 +56,7 @@ class CustomerAddressEditView(HasCustomerAccessPermission, SuccessMessageMixin, 
     success_message = "address was successfully updated"
 
     def get_queryset(self):
-        return UserAddresModel.objects.filter(user=self.request.user)
+        return UserAddressModel.objects.filter(user=self.request.user)
     
     def get_success_url(self):
         return reverse_lazy("dashboard:customer:address-edit", kwargs={"pk":self.get_object().pk})
@@ -68,6 +68,6 @@ class CustomerAddressDeleteView(HasCustomerAccessPermission, SuccessMessageMixin
     success_url = reverse_lazy("dashboard:customer:address-list")
     
     def get_queryset(self):
-        return UserAddresModel.objects.filter(user=self.request.user)
+        return UserAddressModel.objects.filter(user=self.request.user)
 
 

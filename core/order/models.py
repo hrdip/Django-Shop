@@ -10,7 +10,7 @@ class OrderStatusType(models.IntegerChoices):
     delivered = 4, ("تحویل داده شده")
     canceled = 5, ("لغو شده")
 
-class UserAddresModel(models.Model):
+class UserAddressModel(models.Model):
     user = models.ForeignKey("accounts.User", on_delete=models.CASCADE)
     address = models.CharField(max_length=250)
     state = models.CharField(max_length=50)

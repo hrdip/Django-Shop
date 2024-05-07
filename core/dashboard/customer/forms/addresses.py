@@ -1,9 +1,9 @@
 from django import forms
-from order.models import UserAddresModel
+from order.models import UserAddressModel
 
 class UserAddressForm(forms.ModelForm):
     class Meta:
-        model = UserAddresModel
+        model = UserAddressModel
         fields = [
             "address",
             "state",
