@@ -42,7 +42,7 @@ class CartSession:
             # the object of product in session
             product_obj = ProductModel.objects.get(id=item["product_id"], status=ProductStatusType.publish.value)
             item["product_obj"] = product_obj
-            total_price = int(item["quantity"]) * product_obj.get_int_price()
+            total_price = int(item["quantity"]) * product_obj.get_price()
             item["total_price"] = total_price
             self.total_payment_price += total_price
         return cart_items

@@ -43,7 +43,7 @@
                     </h4>
                     {% if latest_product.is_discounted %}
                     <p class="card-text text-dark fs-4">
-                        <span class="formatted-price">{{latest_product.get_price}}$</span>
+                        <span class="formatted-price">{{latest_product.get_show_price}}$</span>
                         <span
                             class="text-body me-1 fs-6 formatted-price text-decoration-line-through">{{latest_product.price}}$</span>
                     </p>
