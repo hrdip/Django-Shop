@@ -94,11 +94,43 @@
                     <a class="btn btn-secondary ms-3" 
                         href="{% url 'dashboard:admin:coupon-list' %}">بازگشت
                     </a>
-                    <button class="btn btn-primary ms-3" type="submit">ایجاد کوپن</button>
+                    <button class="btn btn-primary ms-3" type="submit">ویرایش کوپن</button>
                 </div>
             </div>
         </div>
     </form>
 </div>
+<div>
+    <div class="card mb-5">
+        <!-- Table -->
+        <div class="card-header border-bottom ">
+            <h5 class="card-header-title">لیست استفاده کنندگان</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">کاربر</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in object.used_by.all %}
+                        <tr>
+                            <th scope="row">{{forloop.counter}}</th>
+                            <td>{{user.email}}</td>
+
+                        </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>ّ
 <!-- End Card -->
 {% endblock %}
