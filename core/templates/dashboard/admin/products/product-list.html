@@ -70,7 +70,8 @@
 
                 <!-- Input Card -->
                 <div class="col-md-3 py-1">
-                    <input type="text" class="form-control form-select-sm" placeholder="جستجوی کالا" name="q" id="search-query-filter">
+                    <input type="text" class="form-control form-select-sm" placeholder="جستجوی کالا" name="q"
+                        id="search-query-filter">
 
                 </div>
                 <div class="col-md-3 py-1">
@@ -141,13 +142,14 @@
                             <td>{{ object.discount_pecent }}</td>
                             <td>
                                 <a class="btn btn-sm btn-icon btn-ghost-secondary"
-                                    href="{% url 'dashboard:admin:product-edit' pk=object.pk %}"><i class="bi-pencil-square"></i></a>
+                                    href="{% url 'dashboard:admin:product-edit' pk=object.pk %}"><i
+                                        class="bi-pencil-square"></i></a>
                             </td>
                             <td>
-                                    {% if object.is_published %}
-                                <a class="btn btn-sm btn-icon btn-ghost-primary" target="_blank" href="{% url 'shop:product-detail' slug=object.slug %}"><i
-                                        class="bi-eye"></i></a>
-                                    {% endif %}
+                                {% if object.is_published %}
+                                <a class="btn btn-sm btn-icon btn-ghost-primary" target="_blank"
+                                    href="{% url 'shop:product-detail' slug=object.slug %}"><i class="bi-eye"></i></a>
+                                {% endif %}
                             </td>
                         </tr>
                         {% endfor %}
@@ -217,7 +219,7 @@
 
 <script>
 
-    $( document ).ready(function() {
+    $(document).ready(function () {
         let current_url_params = new URLSearchParams(window.location.search)
         $("#page-size-filter").val(current_url_params.get("page_size") || "")
         $("#search-query-filter").val(current_url_params.get("q") || "")
@@ -227,14 +229,14 @@
         $("#order-by-filter").val(current_url_params.get("order_by") || "")
     });
 
-    $('#page-size-filter').change(function() {
-        let current_url_params = new URLSearchParams(window.location.search) 
+    $('#page-size-filter').change(function () {
+        let current_url_params = new URLSearchParams(window.location.search)
         var selectedOption = $(this).val();
         current_url_params.set("page_size", selectedOption)
         let new_url = window.location.pathname + "?" + current_url_params.toString()
         window.location.href = new_url
     });
-    
+
     $('#order-by-filter').change(function () {
         let current_url_params = new URLSearchParams(window.location.search)
         var selectedOption = $(this).val();
