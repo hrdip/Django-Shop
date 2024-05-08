@@ -13,6 +13,7 @@ from website.forms import NewsLetterForm
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
+from cart.models import CartModel
 # Create your views here.
 
 class ShopProductGridView(ListView):
@@ -101,18 +102,18 @@ class ShopProductDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        cart = CartSession(self.request.session)
         product = self.get_object()
-        cart_item = None
-        for item in cart.get_cart_dict()["items"]:
-            if item["product_id"] == str(product.id):
-                cart_item = item
-                break
-        
-        if cart_item is not None:
-            context['product_quantity'] = cart_item["quantity"]
+        user = self.request.user
+        if user.is_authenticated:
+            cart, created = CartModel.objects.get_or_create(user=user)
+            cart_item = cart.cart_items.filter(product=product).first()
+            context['product_quantity'] = cart_item.quantity if cart_item else 0
+            context['product_price'] = product.get_price() 
+            context['total_product_price'] = context['product_quantity'] * context['product_price']
         else:
             context['product_quantity'] = 0
+            context['product_price'] = product.get_price()
+            context['total_product_price'] = 0
         return context
      
 class NewsLetterView(View):

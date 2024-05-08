@@ -95,63 +95,32 @@
                 <span class="d-block mb-2">قیمت واحد:</span>
                 {% if object.is_discounted %}
                     <div class="d-flex align-items-center">
-                        <h3 class="mb-0">{{ object.get_price }}$ </h3>
+                        <h3 class="mb-0">{{ product_price }}$ </h3>
                         <span class="ms-2"><del>{{ object.get_show_raw_price }}$</del></span>
                     </div>
                 {% else %}
                     <div class="d-flex align-items-center">
-                        <h3 class="mb-0">$ {{ object.get_price }} </h3>
+                        <h3 class="mb-0">$ {{ product_price }} </h3>
                     </div>
                 {% endif %}
             </div>
             <div class="mb-5">
-                <span class="d-block mb-2">قیمت کل:</span>
+                <span class="d-block mb-2">قیمت کل این محصول :</span>
                     <div class="d-flex align-items-center">
-                        <h3 class="mb-0">$ {{ item.total_price}} </h3>
+                        <h3 class="mb-0">$ {{ total_product_price }} </h3>
                     </div>
             </div>
             <!-- End Price -->
-            <div class="col-sm-3">
-                <div class="row">
-                    <div class="col-auto">
-                        <!-- Select -->
-                        <select class="form-select form-select-sm mb-3" onchange="changeProductQuantityInDetail('{{item.product_id}}', this.value)">
-                            {% with ''|center:object.stock as range %}
-                            {% for _ in range %}
-                            <option value="{{ forloop.counter }}"{% if forloop.counter  == product_quantity %} selected {% endif %}>{{ forloop.counter }}</option>
-                            {% endfor %}
-                            {% endwith %}
-                        </select>
-                        <!-- End Select -->
-                    </div>
-                </div>
-            </div>
             <!-- Quantity -->
             <div class="quantity-counter mb-3">
                 <div class="js-quantity-counter row align-items-center">
                     <div class="col">
-                        <span class="d-block small">تعداد را انتخاب کنید</span>
+                        <span class="d-block small">تعداد انتخاب شده به عدد</span>
                         <input class="js-result form-control form-control-quantity-counter" type="text" value="{{ product_quantity }}">
                     </div>
                     <!-- End Col -->
 
-                    <div class="col-auto">
-                        <a class="js-minus btn btn-outline-secondary btn-xs btn-icon rounded-circle"
-                            href="javascript:;">
-                            <svg width="8" height="2" viewBox="0 0 8 2" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M0 1C0 0.723858 0.223858 0.5 0.5 0.5H7.5C7.77614 0.5 8 0.723858 8 1C8 1.27614 7.77614 1.5 7.5 1.5H0.5C0.223858 1.5 0 1.27614 0 1Z"
-                                    fill="currentColor" />
-                            </svg>
-                        </a>
-                        <a class="js-plus btn btn-outline-secondary btn-xs btn-icon rounded-circle" href="javascript:;">
-                            <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M4 0C4.27614 0 4.5 0.223858 4.5 0.5V3.5H7.5C7.77614 3.5 8 3.72386 8 4C8 4.27614 7.77614 4.5 7.5 4.5H4.5V7.5C4.5 7.77614 4.27614 8 4 8C3.72386 8 3.5 7.77614 3.5 7.5V4.5H0.5C0.223858 4.5 0 4.27614 0 4C0 3.72386 0.223858 3.5 0.5 3.5H3.5V0.5C3.5 0.223858 3.72386 0 4 0Z"
-                                    fill="currentColor" />
-                            </svg>
-                        </a>
-                    </div>
+                   
                     <!-- End Col -->
                 </div>
                 <!-- End Row -->
@@ -232,7 +201,7 @@
             <!-- End Accordion -->
 
             <div class="d-grid mb-4">
-                <button type="button" class="btn btn-primary btntransition" onclick="addCartItem('{{object.id}}') ">افزودن به سبد خرید</button>
+                <button type="button" class="btn btn-primary btntransition" onclick="addToCart('{{object.id}}') ">افزودن به سبد خرید</button>
             </div>
             <!-- Media -->
             <div class="d-flex align-items-center">
@@ -674,6 +643,7 @@
                 },
                 success: function (response) {
                     console.log(response);
+                    location.reload();
                     // do something with the response data
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -682,6 +652,29 @@
                 }
             });
     }
+    function addToCart(product_id){
+            console.log(product_id)
+            // request
+            $.ajax({
+                url: "{% url 'cart:session-add-product' %}",
+                method: 'POST',
+                data: {
+                    product_id: product_id,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    // update quantity in the cart when we add new item and no need to refresh the page
+                    $("#total-cart-item-count").html(response.total_quantity)
+                    console.log(response);
+                    location.reload();
+                    // do something with the response data
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                    // handel the error case
+                }
+            });
+        }
 
 </script>
 

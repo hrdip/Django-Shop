@@ -11,6 +11,12 @@ class CartModel(models.Model):
     
     def calculate_total_price(self):
         return sum(item.product.get_price()* item.quantity for item in self.cart_items.all())
+    
+    def product_price(self):
+        return (item.product.get_price() for item in self.cart_items.all())
+    
+    def product_quantity(self):
+        return (item.quantity for item in self.cart_items.all())
 
     
 class CartItemModel(models.Model):
