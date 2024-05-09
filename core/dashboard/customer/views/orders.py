@@ -24,6 +24,10 @@ class CustomerOrderListView(LoginRequiredMixin, HasCustomerAccessPermission, Lis
             # we are filtering again that queryset in above
             # if search_q is existing filter by that (title__icontains=search_q)
             queryset = queryset.filter(id__icontains=search_q)
+
+        if status := self.request.GET.get("status"):
+            queryset = queryset.filter(status=status)
+
         if order_by := self.request.GET.get("order_by"):
             try:
                 queryset = queryset.order_by(order_by)
@@ -33,6 +37,7 @@ class CustomerOrderListView(LoginRequiredMixin, HasCustomerAccessPermission, Lis
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["total_products"] = self.get_queryset().count()
+        context["status_types"] = OrderStatusType.choices  
         return context
 
 class CustomerOrderDetailView(LoginRequiredMixin, HasCustomerAccessPermission, DetailView):
