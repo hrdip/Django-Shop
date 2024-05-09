@@ -65,6 +65,10 @@ class OrderModel(models.Model):
 
     def get_full_address(self):
         return f"{self.state}, {self.city}, {self.address}"
+    
+    @property
+    def is_successful(self):
+        return self.status == OrderStatusType.success.value
 
 class OrderItemModel(models.Model):
     order = models.ForeignKey(OrderModel, on_delete=models.CASCADE, related_name='order_items')

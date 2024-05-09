@@ -1,7 +1,7 @@
 from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from dashboard.permissions import HasCustomerAccessPermission
-from order.models import OrderModel
+from order.models import OrderModel, OrderStatusType
 from django.core.exceptions import FieldError
 # Create your views here.
 
@@ -41,3 +41,10 @@ class CustomerOrderDetailView(LoginRequiredMixin, HasCustomerAccessPermission, D
     def get_queryset(self):
         queryset = OrderModel.objects.filter(user=self.request.user)
         return queryset
+    
+
+class CustomerOrderInvoiceView(LoginRequiredMixin, HasCustomerAccessPermission, DetailView):
+    template_name = "dashboard/customer/orders/order-invoice.html"
+
+    def get_queryset(self):
+        return OrderModel.objects.filter(user=self.request.user,status=OrderStatusType.success.value)

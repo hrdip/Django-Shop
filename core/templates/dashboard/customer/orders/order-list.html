@@ -172,13 +172,16 @@
 
                                     <div class="col-md-4">
                                         <div class="d-grid gap-2">
+                                            {% if object.is_successful %}
                                             <a class="btn btn-white btn-sm"
-                                                href="{% url 'dashboard:customer:customer-order-detail' pk=object.pk %}">
-                                                <i class="bi-basket small me-2"></i> مشاهده سفارش
-                                            </a>
-                                            <a class="btn btn-white btn-sm" href="#">
+                                                href="{% url 'dashboard:customer:customer-order-invoice' pk=object.pk %}"
+                                                target="_blank">
                                                 <i class="bi-receipt small me-2"></i> مشاهده فاکتور
-                                            </a>
+                                            </a> 
+                                            {% endif %}
+                                            <a class="btn btn-primary btn-sm"
+                                                href="{% url 'dashboard:customer:customer-order-detail' pk=object.pk %}">مشاهده
+                                                سفارش</a>
                                         </div>
                                     </div>
                                 </div>
