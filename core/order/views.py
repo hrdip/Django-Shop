@@ -13,6 +13,8 @@ from cart.cart import CartSession
 from decimal import Decimal
 from django.http import JsonResponse
 from django.utils import timezone
+from payment.zarinpal_client import ZarinPalSandbox
+from payment.models import PaymentModel
 # Create your views here.
 
 
@@ -47,7 +49,26 @@ class OrderCheckoutView(LoginRequiredMixin, HasCustomerAccessPermission, FormVie
         
         self.apply_coupon(coupon, order, user, total_price)
         order.save()
-        return super().form_valid(form)
+
+        payment_url = self.create_payment_url(order)
+        return redirect(payment_url)
+    
+    def create_payment_url(self, order):
+
+        # after all before show complete order we need request to payment with our value and response from payment hub and connect user to payment hub
+        zarinpal = ZarinPalSandbox()
+
+        # amount come from order price afte tax and coupon cost
+        response = zarinpal.payment_request(order.total_price)
+        # create order payment object to fill up forms and we can see in admin django or admin user
+        payment_obj = PaymentModel.objects.create(
+            authority_id = response.get("Authority"),
+            amount = order.total_price,
+        )
+        # replace payment object created to payment field into order models
+        order.payment = payment_obj
+        order.save()
+        return (zarinpal.generate_payment_url(response.get("Authority")))
     
     # make order with cart items we get
     def create_order(self, address):
@@ -144,6 +165,10 @@ class ValidateCouponView(LoginRequiredMixin, HasCustomerAccessPermission, View):
                 total_tax_price = total_price + total_tax
                 total_discount = round(total_tax_price - (total_tax_price * (coupon.discount_percent/100)))
         return JsonResponse({"message":message, "total_tax":total_tax, "total_tax_price":total_tax_price, "total_discount":total_discount, "total_price":total_price}, status=status_code)
+
+
+class OrderFailedView(LoginRequiredMixin, HasCustomerAccessPermission, TemplateView):
+    template_name = 'order/order-failed.html'
 
 
 class NewsLetterView(View):
