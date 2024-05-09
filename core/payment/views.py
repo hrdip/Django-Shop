@@ -4,6 +4,7 @@ from .models import PaymentModel, PaymentStatusType
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, get_object_or_404
 from .zarinpal_client import ZarinPalSandbox
+from order.models import OrderModel, OrderStatusType
 # Create your views here.
 
 class PaymentVerifyView(View):
@@ -19,12 +20,20 @@ class PaymentVerifyView(View):
         # request to zarinpal
         zarinpal = ZarinPalSandbox()
         response = zarinpal.payment_verify(int(payment_obj.amount),payment_obj.authority_id)
+
+        order = OrderModel.objects.get(payment=payment_obj)
+
         if response["Status"] == 100 or response["Status"] == 101:
             payment_obj.ref_id = response["RefID"]
             payment_obj.response_code = response["Status"]
             payment_obj.status = PaymentStatusType.success.value
             payment_obj.response_json = response
             payment_obj.save()
+
+            # change order status same as payment status
+            order.status = OrderStatusType.success.value
+            order.save()
+
             return redirect(reverse_lazy("order:order-completed"))
         else: 
             payment_obj.ref_id = response["RefID"]
@@ -32,4 +41,8 @@ class PaymentVerifyView(View):
             payment_obj.status = PaymentStatusType.faild.value
             payment_obj.response_json = response
             payment_obj.save()
+
+            # change order status same as payment status
+            order.status = OrderStatusType.failed.value
+            order.save()
             return redirect(reverse_lazy("order:order-failed"))
