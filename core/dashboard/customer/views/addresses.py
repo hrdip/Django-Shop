@@ -23,7 +23,7 @@ class CustomerAddressListView(HasCustomerAccessPermission, LoginRequiredMixin, L
         if search_q := self.request.GET.get("q"):
             # we are filtering again that queryset in above
             # if search_q is existing filter by that (title__icontains=search_q)
-            queryset = queryset.filter(title__icontains=search_q)
+            queryset = queryset.filter(state__icontains=search_q)
         if order_by := self.request.GET.get("order_by"):
             try:
                 queryset = queryset.order_by(order_by)
