@@ -1,5 +1,6 @@
 import requests
 import json
+from django.conf import settings
 
 class ZarinPalSandbox:
     _payment_request_url = 'https://sandbox.zarinpal.com/pg/rest/WebGate/PaymentRequest.json'
@@ -7,7 +8,7 @@ class ZarinPalSandbox:
     _payment_page_url = 'https://sandbox.zarinpal.com/pg/StartPay/'
     _callback_url = 'https://redreseller.com/verify'
 
-    def __init__(self, nerchant_id):
+    def __init__(self, nerchant_id=settings.MERCHANT_ID):
         self.merchant_id = nerchant_id
 
     def payment_request(self,amount,description="user payment"):

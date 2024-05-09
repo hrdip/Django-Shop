@@ -24,7 +24,7 @@ class CouponModel(models.Model):
     code = models.CharField(max_length=100, unique=True)
     discount_percent = models.IntegerField(default=0, validators = [MinValueValidator(0),MaxValueValidator(100)])
     max_limit_usage = models.PositiveIntegerField(default=10)
-    used_by = models.ManyToManyField('accounts.User', blank=True, null=True, related_name="coupon_users")
+    used_by = models.ManyToManyField('accounts.User', blank=True, related_name="coupon_users")
     expiration_date = models.DateTimeField(null=True, blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
@@ -44,6 +44,9 @@ class OrderModel(models.Model):
     status = models.IntegerField(choices=OrderStatusType.choices, default=OrderStatusType.pending.value)
     total_price = models.DecimalField(default=0, max_digits=10, decimal_places=0)
     coupon = models.ForeignKey(CouponModel, on_delete=models.PROTECT, blank=True, null=True)
+    
+    payment = models.ForeignKey('payment.PaymentModel', on_delete=models.SET_NULL, blank=True, null=True)
+    
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
