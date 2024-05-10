@@ -50,7 +50,11 @@ class OrderCheckoutView(LoginRequiredMixin, HasCustomerAccessPermission, FormVie
         
         self.apply_coupon(coupon, order, user, total_price)
         
- 
+        # Check product availability before payment
+        for item in order.order_items.all():
+            if item.product.stock < item.quantity:
+                messages.error(self.request, f"Sorry, {item.product.title} is out of stock.")
+                return self.form_invalid(form)
         
         order.save()
 
