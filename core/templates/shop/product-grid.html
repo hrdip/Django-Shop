@@ -182,9 +182,11 @@
                         <div class="card card-bordered shadow-none text-center h-100">
                             <div class="card-pinned">
                                 <img class="card-img-top" src="{{ object.image.url }}" alt="Image Description">
-                                    <div class="card-pinned-top-start">
-                                        <span class="badge bg-success rounded-pill">جدید</span>
-                                    </div>
+                                <div class="card-pinned-top-start">
+                                    {% if object.stock == 0 %}
+                                        <span class="badge bg-danger rounded-pill"> در انبار موجود نمی باشد</span>
+                                    {% endif %}
+                                </div>
                                 <div class="card-pinned-top-end">
                                     {% if request.user.is_authenticated %}
                                     <button type="button" class="btn btn-outline-secondary btn-xs btn-icon rounded-circle"
@@ -217,6 +219,7 @@
                                 {% else %}
                                     <p class="card-text text-dark fs-4 formatted-price"> {{object.price}}$</p>
                                 {% endif %}
+                                <p class="card-text text-dark fs-4 "> تعداد موجود :{{object.stock}}</p>
                             </div>
 
                             <div class="card-footer pt-0">
@@ -232,10 +235,13 @@
                                     <span class="small">0</span>
                                 </a>
                                 <!-- End Rating -->
-
-                                <button type="button"
-                                    class="btn btn-outline-primary btn-sm btn-transition rounded-pill" onclick="addCartItem('{{object.id}}')">افزودن به سبد
+                                {% if object.stock == 0 %}
+                                    <span class="badge bg-danger rounded-pill btn-sm "> در انبار موجود نمی باشد</span>
+                                {% else %}
+                                    <button type="button"
+                                        class="btn btn-outline-primary btn-sm btn-transition rounded-pill" onclick="addCartItem('{{object.id}}')">افزودن به سبد
                                     خرید</button>
+                                {% endif %}
                             </div>
                         </div>
                         <!-- End Card --> 

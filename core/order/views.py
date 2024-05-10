@@ -14,7 +14,7 @@ from decimal import Decimal
 from django.http import JsonResponse
 from django.utils import timezone
 from payment.zarinpal_client import ZarinPalSandbox
-from payment.models import PaymentModel
+from payment.models import PaymentModel, PaymentStatusType
 from django.db import transaction
 # Create your views here.
 
@@ -49,6 +49,8 @@ class OrderCheckoutView(LoginRequiredMixin, HasCustomerAccessPermission, FormVie
         total_price = order.calculate_total_tax_price()
         
         self.apply_coupon(coupon, order, user, total_price)
+        order.save()
+        payment_url = self.create_payment_url(order)
         
         # Check product availability before payment
         for item in order.order_items.all():
@@ -56,16 +58,20 @@ class OrderCheckoutView(LoginRequiredMixin, HasCustomerAccessPermission, FormVie
                 messages.error(self.request, f"Sorry, {item.product.title} is out of stock.")
                 return self.form_invalid(form)
         
-        order.save()
+        # Assuming payment is successful based on your logic
+        payment_status = PaymentStatusType.success.value
 
-        payment_url = self.create_payment_url(order)
+        # Update the payment status
+        order.payment.status = payment_status
+        order.payment.save()
 
         # Decrease the stock quantity of products in the order
-        with transaction.atomic():
-            for item in order.order_items.all():
-                product = item.product
-                product.stock -= item.quantity
-                product.save()
+        if order.payment.status == PaymentStatusType.success.value:
+            with transaction.atomic():
+                for item in order.order_items.all():
+                    product = item.product
+                    product.stock -= item.quantity
+                    product.save()
 
         return redirect(payment_url)
     

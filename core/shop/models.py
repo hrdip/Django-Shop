@@ -56,6 +56,7 @@ class ProductModel(models.Model):
     
     def is_published(self):
         return self.status == ProductStatusType.publish.value
+    
 
 
 class ProductImageModel(models.Model):

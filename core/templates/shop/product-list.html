@@ -184,7 +184,9 @@
                                         alt="Image Description">
 
                                     <div class="card-pinned-top-start">
-                                        <span class="badge bg-success rounded-pill">جدید</span>
+                                    {% if object.stock == 0 %}
+                                        <span class="badge bg-danger rounded-pill"> در انبار موجود نمی باشد</span>
+                                    {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -214,6 +216,7 @@
                                         {% else %}
                                             <p class="card-text text-dark fs-4 formatted-price"> {{object.price}}$</p>
                                         {% endif %}
+                                        <p class="card-text text-dark fs-4 "> تعداد موجود :{{object.stock}}</p>
                                     </div>
 
                                     <!-- Rating -->
@@ -238,9 +241,13 @@
 
                                     <div class="card-footer">
                                         <div class="d-flex gap-2">
-                                            <button type="button"
-                                                class="btn btn-outline-primary btn-sm btn-transition rounded-pill" onclick="addCartItem('{{object.id}}')">افزودن به سبد خرید    
-                                            </button>
+                                            {% if object.stock == 0 %}
+                                                <span class="badge bg-danger rounded-pill btn-sm "> در انبار موجود نمی باشد</span>
+                                            {% else %}
+                                                <button type="button"
+                                                    class="btn btn-outline-primary btn-sm btn-transition rounded-pill" onclick="addCartItem('{{object.id}}')">افزودن به سبد خرید    
+                                                </button>
+                                            {% endif %}
                                             {% if request.user.is_authenticated %}
                                             <button type="button"
                                                 class="btn btn-soft-secondary btn-sm btn-transition rounded-pill">
