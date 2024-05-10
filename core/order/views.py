@@ -15,7 +15,7 @@ from django.http import JsonResponse
 from django.utils import timezone
 from payment.zarinpal_client import ZarinPalSandbox
 from payment.models import PaymentModel
-
+from django.db import transaction
 # Create your views here.
 
 
@@ -60,7 +60,12 @@ class OrderCheckoutView(LoginRequiredMixin, HasCustomerAccessPermission, FormVie
 
         payment_url = self.create_payment_url(order)
 
-     
+        # Decrease the stock quantity of products in the order
+        with transaction.atomic():
+            for item in order.order_items.all():
+                product = item.product
+                product.stock -= item.quantity
+                product.save()
 
         return redirect(payment_url)
     
