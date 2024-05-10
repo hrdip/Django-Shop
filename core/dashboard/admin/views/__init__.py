@@ -5,3 +5,4 @@ from .coupons import *
 from .orders import *
 from .newsletters import *
 from .users import *
+from .contacts import *

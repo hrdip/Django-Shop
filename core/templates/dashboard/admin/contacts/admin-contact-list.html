@@ -32,7 +32,7 @@
                         <li class="breadcrumb-item">حساب</li>
                         <li class="breadcrumb-item">داشبورد ادمین</li>
                         <li class="breadcrumb-item active" aria-current="page">
-                            اخبار سایت
+                             ارتباط با ما
                         </li>
                     </ol>
                 </nav>
@@ -74,10 +74,11 @@
 
             <!-- Input Card -->
             <div class="col-md-6 py-1">
-                <input type="text" class="form-control form-control-sm" placeholder="جستو جوی ایمیل" name="q"
+                <input type="text" class="form-control form-control-sm" placeholder="جستو جوی تیکت ها" name="q"
                     id="search-query-filter">
 
             </div>
+       
             <div class="col-md-3 py-1">
                 <select class="form-select form-select-sm" id="order-by-filter">
                     <option value="" selected>مرتب سازی</option>
@@ -86,7 +87,7 @@
                 </select>
             </div>
 
-
+           
             <div class="col-md-2 py-1">
                 <select class="form-select form-select-sm" id="page-size-filter">
                     <option value="" selected>تعداد</option>
@@ -108,6 +109,7 @@
 
     <!-- Body -->
     <div class="card-body">
+
         <!-- Tab Content -->
         <div class="tab-content" id="accountOrdersTabContent">
             <div class="tab-pane fade show active" id="accountOrdersOne" role="tabpanel"
@@ -118,36 +120,50 @@
                         <span><strong class="text-dark">{{ total_items}} تیکت</strong></span>
                     </div>
                 </div>
-
+                <!-- End Select Group -->
                 <div class="row">
                     <!-- Table -->
                     <div class="table-responsive">
                         <table class="table">
                             <thead class="thead-light">
                                 <tr>
-                                    <th scope="col">#</th>
+                                    <th scope="col">#</th>       
+                                    <th scope="col">نام و نام خانوادگی</th>
                                     <th scope="col">ایمیل</th>
-                                    <th scope="col">تاریخ ثبت </th>
+                                    <th scope="col">شماره همراه</th>
+                                    <th scope="col">موضوع</th>
+                                    <th scope="col">تاریخ ثبت</th>
+                                    <th scope="col">وضعیت</th>
                                     <th scope="col">عملیات</th>
+
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for object in object_list %}
                                 <tr>
                                     <th scope="row">{{forloop.counter}}</th>
+                                    <td>{{ full_name }}</td>
                                     <td>{{object.email}}</td>
+                                    <td>{{object.phone_number}}</td>
+                                    <td>{{object.subject}}</td>
                                     <td>{{object.created_date|date:"Y-m-d h:i"}}</td>
+                                    <td>
+                                        {% if object.is_seen %}
+                                        <span class="badge bg-success">دیده شده</span>
+                                        {% else %}
+                                        <span class="badge bg-secondary">در انتظار دیدن</span>
+                                        {% endif %}
+                                    </td>
                                     <td class="d-flex">
-                                        <a class="btn btn-sm btn-icon btn-ghost-danger"
-                                            href="{% url 'dashboard:admin:newsletter-delete' pk=object.pk %}"><i
-                                                class="bi-trash"></i></a>
-
+                                        <a class="btn btn-sm btn-icon btn-ghost-secondary"
+                                            href="{% url 'dashboard:admin:admin-contact-detail' pk=object.pk %}"><i class="bi-eye"></i></a>
+        
                                     </td>
                                 </tr>
                                 {% endfor %}
+
                             </tbody>
                         </table>
-
                     </div>
                     <!-- End Table -->
 
@@ -175,8 +191,12 @@
                                 {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %} <li
                                     class="page-item">
                                     <button class="page-link" onclick="changePage(`{{i}}`)">{{ i }}</button></li>
+
                                     {% endif %}
+
                                     {% endfor %}
+
+
                                     {% if page_obj.has_next %}
                                     <li class="page-item">
                                         <button class="page-link"
@@ -188,6 +208,7 @@
                                         </button>
                                     </li>
                                     {% endif %}
+
                             </ul>
                         </nav>
                         {% endif %}
@@ -195,13 +216,13 @@
                     </div>
                     <!-- End Pagination -->
                 </div>
-                <!-- End Row -->
             </div>
-            <!-- End Body -->
         </div>
-        <!-- End Card -->
+        <!-- End Tab Content -->
     </div>
+    <!-- End Body -->
 </div>
+<!-- End Card -->
 {% endblock %}
 
 {% block extra_js %}
@@ -209,7 +230,7 @@
 
     $(document).ready(function () {
         let current_url_params = new URLSearchParams(window.location.search)
-        $("#page-size-filter").val(current_url_params.get("page_size") || "5")
+        $("#page-size-filter").val(current_url_params.get("page_size") || "10")
         $("#order-by-filter").val(current_url_params.get("order_by") || "")
         $("#search-query-filter").val(current_url_params.get("q") || "")
 
@@ -228,7 +249,6 @@
         let new_url = window.location.pathname + "?" + current_url_params.toString()
         window.location.href = new_url
     });
-
 
 </script>
 {% endblock %}

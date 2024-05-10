@@ -15,6 +15,7 @@ from django.http import JsonResponse
 from django.utils import timezone
 from payment.zarinpal_client import ZarinPalSandbox
 from payment.models import PaymentModel
+
 # Create your views here.
 
 
@@ -48,9 +49,15 @@ class OrderCheckoutView(LoginRequiredMixin, HasCustomerAccessPermission, FormVie
         total_price = order.calculate_total_tax_price()
         
         self.apply_coupon(coupon, order, user, total_price)
+        
+ 
+        
         order.save()
 
         payment_url = self.create_payment_url(order)
+
+     
+
         return redirect(payment_url)
     
     def create_payment_url(self, order):

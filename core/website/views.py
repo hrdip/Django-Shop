@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, CreateView
 from django.views import View
 from . models import ContactUsModel, NewsLetterModel
 from .forms import ContactUsForm, NewsLetterForm
@@ -12,10 +12,11 @@ from django.shortcuts import redirect
 class IndexView(TemplateView):
     template_name = 'website/index.html'
 
-class NewsLetterView(View):
+class NewsLetterView(CreateView):
     http_method_names = ['post']
     model = NewsLetterModel()
     form_class = NewsLetterForm
+    success_url = '/'
 
     def post(self, request):
         form = NewsLetterForm(request.POST)
@@ -30,8 +31,6 @@ class NewsLetterView(View):
             messages.add_message(request,messages.ERROR,'your ticket didnt submitted')
             return redirect('website:index')
     
-    def get_success_url(self):
-        return reverse_lazy('website:index')
 
 class ContactUsView(View):
     template_name = 'website/contact.html'
