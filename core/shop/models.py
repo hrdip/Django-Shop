@@ -1,3 +1,4 @@
+from typing import Any
 from django.db import models
 from decimal import Decimal
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -64,4 +65,16 @@ class ProductImageModel(models.Model):
     file = models.ImageField( upload_to="product/extra-img/")
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
+
+
+class WishlistProductModel(models.Model):
+    user = models.ForeignKey("accounts.User", on_delete=models.PROTECT)
+    product = models.ForeignKey(ProductModel,on_delete=models.CASCADE)
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self, *args: Any, **kwargs):
+        return self.product.title
+
+
 
