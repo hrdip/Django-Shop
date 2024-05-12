@@ -6,11 +6,13 @@ from .forms import ContactUsForm, NewsLetterForm
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
+from shop.models import ProductModel, ProductStatusType
 # Create your views here.
 
 
 class IndexView(TemplateView):
     template_name = 'website/index.html'
+
 
 class NewsLetterView(CreateView):
     http_method_names = ['post']

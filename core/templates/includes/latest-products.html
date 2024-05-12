@@ -22,7 +22,7 @@
                     {% if request.user.is_authenticated %}
                     <div class="card-pinned-top-end">
                         <button type="button" class="btn btn-outline-secondary btn-xs btn-icon rounded-circle {% if latest_product.id in wishlist_items %} active {% endif %}"
-                            data-bs-toggle="tooltip" data-bs-placement="top" title="افزودن به علایق" onclick="addToWishlist(this,'{{latest_product.id}}')">
+                         data-bs-toggle="tooltip" data-bs-placement="top" title="افزودن به علایق" onclick="addToWishlist(this,'{{latest_product.id}}')">
                             <i class="bi-heart"></i>
                         </button>
                     </div>
@@ -88,36 +88,3 @@
     </div>
 </div>
 <!-- End Card Grid -->
-
-{% block extra_js %}
-<script>
-    function addToWishlist(element,product_id){
-        $.ajax({
-            url: "{% url 'shop:add-or-remove-wishlist' %}",
-            method: 'POST',
-            data: {
-                product_id: product_id,
-                csrfmiddlewaretoken: '{{ csrf_token }}'
-            },
-            success: function (response) {
-                console.log(response);
-                Toastify({
-                    text: response.message,
-                    className: `info`,
-                    style: {
-                    background: "blue",
-                    }
-                }).showToast();
-                // if everything is ok element to jquery
-                $(element).toggleClass('active');
-
-                // do something with the response data
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log(errorThrown);
-                // handel the error case
-            }
-        });
-    }
-</script>
-{% endblock extra_js %}
