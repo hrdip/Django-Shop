@@ -51,10 +51,15 @@ class ShopProductGridView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["total_products"] = self.get_queryset().count()
-        # wishlist and  get only product id
-        context["wishlist_items"] = WishlistProductModel.objects.filter(user=self.request.user).values_list('product__id', flat=True)
-        context["categories"] = ProductCategoryModel.objects.all()
+        user = self.request.user
+        if user.is_authenticated:
+            context["total_products"] = self.get_queryset().count()
+            # wishlist and  get only product id
+            context["wishlist_items"] = WishlistProductModel.objects.filter(user=self.request.user).values_list('product__id', flat=True)
+            context["categories"] = ProductCategoryModel.objects.all()
+        else:
+            context["total_products"] = self.get_queryset().count()
+            context["categories"] = ProductCategoryModel.objects.all()
         return context
         
 
@@ -93,10 +98,16 @@ class ShopProductListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["total_products"] = self.get_queryset().count()
-        # wishlist and  get only product id
-        context["wishlist_items"] = WishlistProductModel.objects.filter(user=self.request.user).values_list('product__id', flat=True)
-        context["categories"] = ProductCategoryModel.objects.all()
+        user = self.request.user
+        if user.is_authenticated:
+            context["total_products"] = self.get_queryset().count()
+            # wishlist and  get only product id
+            context["wishlist_items"] = WishlistProductModel.objects.filter(user=self.request.user).values_list('product__id', flat=True)
+            context["categories"] = ProductCategoryModel.objects.all()
+        else:
+            context["total_products"] = self.get_queryset().count()
+            context["categories"] = ProductCategoryModel.objects.all()
+
         return context
     
 
