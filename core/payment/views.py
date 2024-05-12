@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect, get_object_or_404
 from .zarinpal_client import ZarinPalSandbox
 from order.models import OrderModel, OrderStatusType
+from django.db import transaction
 # Create your views here.
 
 class PaymentVerifyView(View):
@@ -33,6 +34,13 @@ class PaymentVerifyView(View):
             # change order status same as payment status
             order.status = OrderStatusType.success.value
             order.save()
+
+            # Decrease the stock quantity of products in the order
+            with transaction.atomic():
+                for item in order.order_items.all():
+                    product = item.product
+                    product.stock -= item.quantity
+                    product.save()
 
             return redirect(reverse_lazy("order:order-completed"))
         else: 
