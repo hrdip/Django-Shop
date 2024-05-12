@@ -22,5 +22,5 @@ def show_similar_products(context, product):
 
 @register.inclusion_tag('includes/latest3-products.html')
 def show_3_latest_products():
-    latest3_products = ProductModel.objects.filter(status=ProductStatusType.publish.value).order_by('-created_date')[:3]
+    latest3_products = ProductModel.objects.filter(status=ProductStatusType.publish.value).order_by('-created_date')[:6]
     return {"latest3_products":latest3_products}
