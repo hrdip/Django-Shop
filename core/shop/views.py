@@ -92,6 +92,8 @@ class ShopProductListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["total_products"] = self.get_queryset().count()
+        # wishlist and  get only product id
+        context["wishlist_items"] = WishlistProductModel.objects.filter(user=self.request.user).values_list('product__id', flat=True)
         context["categories"] = ProductCategoryModel.objects.all()
         return context
     
@@ -109,6 +111,8 @@ class ShopProductDetailView(DetailView):
             cart_item = cart.cart_items.filter(product=product).first()
             context['product_quantity'] = cart_item.quantity if cart_item else 0
             context['product_price'] = product.get_price() 
+                        # wishlist and  get only product id
+            context["is_wished"] = WishlistProductModel.objects.filter(user=self.request.user, product__id=self.get_object().id).exists()
             context['total_product_price'] = context['product_quantity'] * context['product_price']
         else:
             context['product_quantity'] = 0

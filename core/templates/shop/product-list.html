@@ -250,7 +250,7 @@
                                             {% endif %}
                                             {% if request.user.is_authenticated %}
                                             <button type="button"
-                                                class="btn btn-soft-secondary btn-sm btn-transition rounded-pill">
+                                                class="btn btn-soft-secondary btn-sm btn-transition rounded-pill {% if object.id in wishlist_items %} active {% endif %}">
                                                 <i class="bi-heart ms-1"></i>افزودن به علایق
                                             </button>
                                             {% endif %}
