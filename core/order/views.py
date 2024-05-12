@@ -1,7 +1,7 @@
 from django.views.generic import View, TemplateView, FormView
 from order.permissions import HasCustomerAccessPermission
 from django.contrib.auth.mixins import LoginRequiredMixin
-from order.models import UserAddressModel, OrderModel, OrderItemModel, CouponModel, OrderStatusType
+from order.models import UserAddressModel, OrderModel, OrderItemModel, CouponModel
 from order.forms import CheckOutForm
 from cart.models import CartModel
 from django.urls import reverse_lazy
@@ -14,9 +14,7 @@ from decimal import Decimal
 from django.http import JsonResponse
 from django.utils import timezone
 from payment.zarinpal_client import ZarinPalSandbox
-from payment.models import PaymentModel, PaymentStatusType
-from django.db import transaction
-from cart.models import CartItemModel
+from payment.models import PaymentModel
 # Create your views here.
 
 

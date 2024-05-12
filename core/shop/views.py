@@ -1,13 +1,11 @@
 from django.shortcuts import render
 from django.views.generic import (
     View,
-    TemplateView,
     ListView,
     DetailView,
 )
-from .models import ProductModel, ProductStatusType, ProductCategoryModel
+from .models import ProductModel, ProductStatusType, ProductCategoryModel, WishlistProductModel
 from django.core.exceptions import FieldError
-from cart.cart import CartSession
 from website.models import NewsLetterModel
 from website.forms import NewsLetterForm
 from django.contrib import messages
@@ -52,6 +50,8 @@ class ShopProductGridView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["total_products"] = self.get_queryset().count()
+        # wishlist and  get only product id
+        context["wishlist_items"] = WishlistProductModel.objects.filter(user=self.request.user).values_list('product__id', flat=True)
         context["categories"] = ProductCategoryModel.objects.all()
         return context
         
