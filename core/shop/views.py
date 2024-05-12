@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import (
     View,
@@ -12,6 +13,7 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from cart.models import CartModel
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 class ShopProductGridView(ListView):
@@ -140,3 +142,19 @@ class NewsLetterView(View):
     
     def get_success_url(self):
         return reverse_lazy('shop:product-grid')
+    
+
+class AddOrRemoveWishlistView(View, LoginRequiredMixin):
+
+    def post(self, request, *args, **kwargs):
+        product_id = request.POST.get('product_id')
+        message = ""
+        if product_id:
+            try:
+                wishlist_item = WishlistProductModel.objects.get(user=request.user, product__id=product_id)
+                wishlist_item.delete()
+                message = "Removed from wishlist"
+            except WishlistProductModel.DoesNotExist:
+                WishlistProductModel.objects.create(user=request.user, product_id=product_id)
+                message = "Added to wishlist"
+        return JsonResponse({"message":message})

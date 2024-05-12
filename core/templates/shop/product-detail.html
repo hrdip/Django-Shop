@@ -20,12 +20,11 @@
                             {% for product_image in object.product_images.all %}
                             <div class="swiper-slide">
                                 <div class="card card-bordered shadow-none">
-                                    <img class="avatar-img" src="{{product_image.file.url}}"
-                                        alt="Image Description">
+                                    <img class="avatar-img" src="{{product_image.file.url}}" alt="Image Description">
                                 </div>
                             </div>
-                           {% endfor %}
-                          
+                            {% endfor %}
+
                             <!-- End Slide -->
                         </div>
 
@@ -42,8 +41,7 @@
                                 <!-- Slide -->
                                 <div class="swiper-slide">
                                     <a class="avatar avatar-circle" href="javascript:;">
-                                        <img class="avatar-img" src="{{ object.image.url }}"
-                                            alt="Image Description">
+                                        <img class="avatar-img" src="{{ object.image.url }}" alt="Image Description">
                                     </a>
                                 </div>
                                 {% for product_image in object.product_images.all %}
@@ -53,7 +51,7 @@
                                             alt="Image Description">
                                     </a>
                                 </div>
-                               {% endfor %}
+                                {% endfor %}
                                 <!-- End Slide -->
                             </div>
                         </div>
@@ -65,25 +63,33 @@
         <!-- End Col -->
 
         <div class="col-md-5">
-            <!-- Rating -->
-            <a class="d-flex gap-1 mb-4" href="#reviewSection">
-                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating" width="16">
-                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating" width="16">
-                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating" width="16">
-                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating" width="16">
-                <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating" width="16">
-                <span class="ms-1">287 نظر</span>
-            </a>
-            <!-- End Rating -->
-
+            <div class="d-flex justify-content-between">
+                {% if request.user.is_authenticated %}
+                <!-- Rating -->
+                <a class="d-flex gap-1 mb-4" href="#reviewSection">
+                    <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating" width="16">
+                    <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating" width="16">
+                    <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating" width="16">
+                    <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating" width="16">
+                    <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating" width="16">
+                    <span class="ms-1">287 نظر</span>
+                </a>
+                <!-- End Rating -->
+                <button type="button"
+                    class="btn btn-outline-secondary btn-xs btn-icon rounded-circle {% if is_wished %} active {% endif %}"
+                    data-bs-toggle="tooltip" data-bs-placement="top" title="افزودن به علایق" onclick="addToWishlist(this,'{{object.id}}')">
+                    <i class="bi-heart"></i>
+                </button>
+                {% endif %}
+            </div>
             <!-- Heading -->
             <div class="mb-5">
                 <h1 class="h2">{{ object.title }}</h1>
-                <p>{% for category in object.category.all %} 
-                        <a href="#">{{ category.title }}</a>
-                        {% if not forloop.last %}
-                            ,
-                        {% endif %} 
+                <p>{% for category in object.category.all %}
+                    <a href="#">{{ category.title }}</a>
+                    {% if not forloop.last %}
+                    ,
+                    {% endif %}
                     {% endfor %}
                 </p>
                 <p>{{ object.brief_description|safe }}</p>
@@ -94,21 +100,21 @@
             <div class="mb-5">
                 <span class="d-block mb-2">قیمت واحد:</span>
                 {% if object.is_discounted %}
-                    <div class="d-flex align-items-center">
-                        <h3 class="mb-0">{{ product_price }}$ </h3>
-                        <span class="ms-2"><del>{{ object.get_show_raw_price }}$</del></span>
-                    </div>
+                <div class="d-flex align-items-center">
+                    <h3 class="mb-0">{{ product_price }}$ </h3>
+                    <span class="ms-2"><del>{{ object.get_show_raw_price }}$</del></span>
+                </div>
                 {% else %}
-                    <div class="d-flex align-items-center">
-                        <h3 class="mb-0">$ {{ product_price }} </h3>
-                    </div>
+                <div class="d-flex align-items-center">
+                    <h3 class="mb-0">$ {{ product_price }} </h3>
+                </div>
                 {% endif %}
             </div>
             <div class="mb-5">
                 <span class="d-block mb-2">قیمت کل این محصول :</span>
-                    <div class="d-flex align-items-center">
-                        <h3 class="mb-0">$ {{ total_product_price }} </h3>
-                    </div>
+                <div class="d-flex align-items-center">
+                    <h3 class="mb-0">$ {{ total_product_price }} </h3>
+                </div>
             </div>
             <!-- End Price -->
             <!-- Quantity -->
@@ -116,11 +122,12 @@
                 <div class="js-quantity-counter row align-items-center">
                     <div class="col">
                         <span class="d-block small">تعداد انتخاب شده به عدد</span>
-                        <input class="js-result form-control form-control-quantity-counter" type="text" value="{{ product_quantity }}">
+                        <input class="js-result form-control form-control-quantity-counter" type="text"
+                            value="{{ product_quantity }}">
                     </div>
                     <!-- End Col -->
 
-                   
+
                     <!-- End Col -->
                 </div>
                 <!-- End Row -->
@@ -203,7 +210,8 @@
             <span class="badge bg-danger rounded-pill d-grid"> در انبار موجود نمی باشد</span>
             {% else %}
             <div class="d-grid mb-4">
-                <button type="button" class="btn btn-primary btntransition" onclick="addToCart('{{object.id}}') ">افزودن به سبد خرید</button>
+                <button type="button" class="btn btn-primary btntransition" onclick="addToCart('{{object.id}}') ">افزودن
+                    به سبد خرید</button>
             </div>
             {% endif %}
             <!-- Media -->
@@ -263,11 +271,16 @@
                                 <div class="flex-grow-1 ms-3">
                                     <!-- Rating -->
                                     <div class="d-flex gap-1 small">
-                                        <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating" width="16">
-                                        <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating" width="16">
-                                        <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating" width="16">
-                                        <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating" width="16">
-                                        <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating" width="16">
+                                        <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating"
+                                            width="16">
+                                        <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating"
+                                            width="16">
+                                        <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating"
+                                            width="16">
+                                        <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating"
+                                            width="16">
+                                        <img src="{% static 'svg/illustrations/star.svg' %}" alt="Review rating"
+                                            width="16">
                                     </div>
                                     <!-- End Rating -->
                                     <span class="text-white">287 نظر</span>
@@ -616,8 +629,9 @@
                         <div class="input-card-form">
                             <label for="subscribeForm" class="form-label visually-hidden">ایمیل را وارد کنید</label>
                             <input type="email" class="form-control form-control-lg" name="email"
-                                placeholder="ایمیل خود را وارد نمایید" aria-label="ایمیل خود را وارد کنید" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}">
-                                <span class="invalid-feedback">لطفا یک آدرس ایمیل معتبر وارد کنید.</span>
+                                placeholder="ایمیل خود را وارد نمایید" aria-label="ایمیل خود را وارد کنید"
+                                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}">
+                            <span class="invalid-feedback">لطفا یک آدرس ایمیل معتبر وارد کنید.</span>
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg rounded-pill">ثبت نام</button>
                     </div>
@@ -634,50 +648,50 @@
 {% endblock content %}
 {% block extra_js %}
 <script>
-    function changeProductQuantityInDetail(product_id,quantity) {
+    function changeProductQuantityInDetail(product_id, quantity) {
         // request
         $.ajax({
-                url: "{% url 'cart:session-update-product-quantity' %}",
-                method: 'POST',
-                data: {
-                    product_id: product_id,
-                    quantity: quantity,
-                    csrfmiddlewaretoken: '{{ csrf_token }}'
-                },
-                success: function (response) {
-                    console.log(response);
-                    location.reload();
-                    // do something with the response data
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.log(errorThrown);
-                    // handel the error case
-                }
-            });
+            url: "{% url 'cart:session-update-product-quantity' %}",
+            method: 'POST',
+            data: {
+                product_id: product_id,
+                quantity: quantity,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (response) {
+                console.log(response);
+                location.reload();
+                // do something with the response data
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown);
+                // handel the error case
+            }
+        });
     }
-    function addToCart(product_id){
-            console.log(product_id)
-            // request
-            $.ajax({
-                url: "{% url 'cart:session-add-product' %}",
-                method: 'POST',
-                data: {
-                    product_id: product_id,
-                    csrfmiddlewaretoken: '{{ csrf_token }}'
-                },
-                success: function (response) {
-                    // update quantity in the cart when we add new item and no need to refresh the page
-                    $("#total-cart-item-count").html(response.total_quantity)
-                    console.log(response);
-                    location.reload();
-                    // do something with the response data
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.log(errorThrown);
-                    // handel the error case
-                }
-            });
-        }
+    function addToCart(product_id) {
+        console.log(product_id)
+        // request
+        $.ajax({
+            url: "{% url 'cart:session-add-product' %}",
+            method: 'POST',
+            data: {
+                product_id: product_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (response) {
+                // update quantity in the cart when we add new item and no need to refresh the page
+                $("#total-cart-item-count").html(response.total_quantity)
+                console.log(response);
+                location.reload();
+                // do something with the response data
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown);
+                // handel the error case
+            }
+        });
+    }
 
 </script>
 

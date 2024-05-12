@@ -10,4 +10,5 @@ urlpatterns = [
     # support persian slug
     re_path(r"product/(?P<slug>[-\w]+)/detail/", views.ShopProductDetailView.as_view(),name="product-detail"),
     path("news-letter-view/", views.NewsLetterView.as_view(),name="news-letter"),
+    path("add-or-remove-wishlist/", views.AddOrRemoveWishlistView.as_view(),name="add-or-remove-wishlist"),
 ]
