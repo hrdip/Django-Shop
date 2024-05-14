@@ -23,6 +23,8 @@ class ReviewModel(models.Model):
     def __str__(self):
         return f"{self.user} - {self.product.title}"
 
+    class Meta:
+        ordering = ['-created_date']
 
 # active when ReviewModel active and create revie
 @receiver(post_save, sender=ReviewModel)

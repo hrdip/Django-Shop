@@ -14,6 +14,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from cart.models import CartModel
 from django.contrib.auth.mixins import LoginRequiredMixin
+from review.models import ReviewModel, ReviewStatusType
 # Create your views here.
 
 class ShopProductGridView(ListView):
@@ -127,10 +128,12 @@ class ShopProductDetailView(DetailView):
                         # wishlist and  get only product id
             context["is_wished"] = WishlistProductModel.objects.filter(user=self.request.user, product__id=self.get_object().id).exists()
             context['total_product_price'] = context['product_quantity'] * context['product_price']
+            context['reviews'] = ReviewModel.objects.filter(product=product, status=ReviewStatusType.accepted.value)
         else:
             context['product_quantity'] = 0
             context['product_price'] = product.get_price()
             context['total_product_price'] = 0
+            context['reviews'] = ReviewModel.objects.filter(product=product, status=ReviewStatusType.accepted.value)
         return context
      
 class NewsLetterView(View):
