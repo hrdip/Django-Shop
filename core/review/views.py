@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from .forms import SubmitReviewForm
 from django.shortcuts import redirect
 from django.contrib import messages
+
 # Create your views here.
 
 class SubmitReviewView(LoginRequiredMixin, CreateView):
@@ -18,6 +19,7 @@ class SubmitReviewView(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         form.save()
         product = form.cleaned_data['product']
+
         messages.success(self.request,"دیدگاه شما با موفقیت ثبت گردید و پس از بررسی نمایش داده خواهد شد")
         return redirect(reverse_lazy('shop:product-detail', kwargs={"slug":product.slug}))
     

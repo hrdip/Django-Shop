@@ -40,7 +40,7 @@ class CustomerWishlistListView(HasCustomerAccessPermission, LoginRequiredMixin, 
         context["total_products"] = self.get_queryset().count()
         return context
  
- 
+
 class CustomerWishlistDeleteView(HasCustomerAccessPermission, SuccessMessageMixin, LoginRequiredMixin, DeleteView):
     http_method_names = ['post']
     success_message = "wishlist was successfully deleted"
