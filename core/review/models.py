@@ -26,15 +26,15 @@ class ReviewModel(models.Model):
 
     class Meta:
         ordering = ['-created_date']
-        
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        # Recalculate the average rating for the product
-        avg_rating = ReviewModel.objects.filter(product=self.product).aggregate(Avg('rate'))['rate__avg']
-        self.product.avg_rate = avg_rating or 0  # Set to 0 if no reviews yet
-        self.product.save()
+    
+    def get_status(self):
+        return {"id": self.status, "title": ReviewStatusType(self.status).name, "label": ReviewStatusType(self.status).label}
 
 # active when ReviewModel active and create revie
 @receiver(post_save, sender=ReviewModel)
 def calculate_avg_review(sender, instance, created, **kwargs):
-    pass
+    if created:
+        # Recalculate the average rating for the product
+        avg_rating = ReviewModel.objects.filter(product=instance.product).aggregate(Avg('rate'))['rate__avg']
+        instance.product.avg_rate = avg_rating or 0  # Set to 0 if no reviews yet
+        instance.product.save()

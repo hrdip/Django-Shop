@@ -1,0 +1,136 @@
+{% extends 'dashboard/admin/base.html' %}
+{% load static %}
+
+{% block header %}
+<!-- Breadcrumb -->
+<div class="navbar-dark bg-dark" style="background-image: url({% static '/svg/components/wave-pattern-light.svg' %});">
+    <div class="container content-space-1 content-space-b-lg-3">
+        <div class="row align-items-center">
+            <div class="col">
+                <div class="d-none d-lg-block">
+                    <h1 class="h2 text-white">داشبورد</h1>
+                </div>
+
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb breadcrumb-light mb-0">
+                        <li class="breadcrumb-item">حساب</li>
+                        <li class="breadcrumb-item">داشبورد ادمین</li>
+                        <li class="breadcrumb-item">کوپن</li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            ویرایش کوپن
+                        </li>
+                    </ol>
+                </nav>
+                <!-- End Breadcrumb -->
+            </div>
+            <!-- End Col -->
+
+            <div class="col-auto">
+                <div class="d-none d-lg-block">
+                    <a class="btn btn-soft-light btn-sm" href="{% url 'accounts:logout' %}">خروج</a>
+                </div>
+                <!-- Responsive Toggle Button -->
+                <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#sidebarNav" aria-controls="sidebarNav" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-default">
+                        <i class="bi-list"></i>
+                    </span>
+                    <span class="navbar-toggler-toggled">
+                        <i class="bi-x"></i>
+                    </span>
+                </button>
+                <!-- End Responsive Toggle Button -->
+            </div>
+            <!-- End Col -->
+        </div>
+        <!-- End Row -->
+    </div>
+</div>
+<!-- End Breadcrumb -->
+{% endblock %}
+
+{% block content %}
+
+<!-- Card -->
+<div class="card">
+    <!-- Header -->
+    <div class="card-header border-bottom">
+        <h5 class="card-header-title">ویرایش کوپن</h5>
+    </div>
+    <!-- End Header -->
+
+    <!-- Body -->
+    <form action="." method="post" , enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="card-body">
+            <div class="row d-flex ">
+                <div class="col-md-6 mb-3">
+                    <label>کد تخفیف</label>
+                    {{form.code}}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>درصد تخفیف</label>
+                    {{form.discount_percent}}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>محدودیت نفرات استفاده</label>
+                    {{form.max_limit_usage}}
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label>تاریخ انقضا</label>
+                    {{form.expiration_date}}
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class=" d-flex pt-5 justify-content-end">
+                    <a class="btn btn-danger ms-3"
+                        href="{% url 'dashboard:admin:coupon-delete' pk=object.pk %}">حذف
+                    </a>
+                    <a class="btn btn-secondary ms-3" 
+                        href="{% url 'dashboard:admin:coupon-list' %}">بازگشت
+                    </a>
+                    <button class="btn btn-primary ms-3" type="submit">ویرایش کوپن</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div>
+    <div class="card mb-5">
+        <!-- Table -->
+        <div class="card-header border-bottom ">
+            <h5 class="card-header-title">لیست استفاده کنندگان</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">کاربر</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in object.used_by.all %}
+                        <tr>
+                            <th scope="row">{{forloop.counter}}</th>
+                            <td>{{user.email}}</td>
+
+                        </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>ّ
+<!-- End Card -->
+{% endblock %}
