@@ -33,8 +33,9 @@ class ReviewModel(models.Model):
 # active when ReviewModel active and create revie
 @receiver(post_save, sender=ReviewModel)
 def calculate_avg_review(sender, instance, created, **kwargs):
-    if created:
+    if instance.status == ReviewStatusType.accepted.value:
         # Recalculate the average rating for the product
-        avg_rating = ReviewModel.objects.filter(product=instance.product).aggregate(Avg('rate'))['rate__avg']
-        instance.product.avg_rate = avg_rating or 0  # Set to 0 if no reviews yet
-        instance.product.save()
+        product = instance.product
+        avg_rating = ReviewModel.objects.filter(product=product).aggregate(Avg('rate'))['rate__avg']
+        product.avg_rate = round(avg_rating,1) or 0  # Set to 0 if no reviews yet
+        product.save()
