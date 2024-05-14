@@ -29,7 +29,7 @@ class AdminReviewListView(HasAdminAccessPermission, LoginRequiredMixin, ListView
         if search_q := self.request.GET.get("q"):
             # we are filtering again that queryset in above
             # if search_q is existing filter by that (title__icontains=search_q)
-            queryset = queryset.filter(title__icontains=search_q)
+            queryset = queryset.filter(product__title__icontains=search_q)
 
         if status := self.request.GET.get("status"):
             queryset = queryset.filter(status=status)
@@ -44,7 +44,7 @@ class AdminReviewListView(HasAdminAccessPermission, LoginRequiredMixin, ListView
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["total_products"] = self.get_queryset().count()
-        context["status_types"] = ReviewStatusType.objects.all()
+        context["status_types"] = ReviewStatusType.choices
         return context
     
 
@@ -53,3 +53,6 @@ class AdminReviewEditView(HasAdminAccessPermission, SuccessMessageMixin, LoginRe
     queryset = ReviewModel.objects.all()
     form_class = ReviewForm
     success_message = "review was successfully updated"
+
+    def get_success_url(self):
+        return reverse_lazy("dashboard:admin:admin-review-edit", kwargs={'pk': self.kwargs.get('pk')})

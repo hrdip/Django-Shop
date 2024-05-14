@@ -151,6 +151,7 @@
                                     <th scope="col">امتیاز</th>
                                     <th scope="col">تاریخ ثبت</th>
                                     <th scope="col">وضعیت</th>
+                                    <th scope="col">عملیات</th>
 
                                 </tr>
                             </thead>
@@ -160,10 +161,16 @@
                                     <th scope="row">{{forloop.counter}}</th>
                                     <td>{{ object.product.title }}</td>
                                     <td>{{object.user.user_profile.get_fullname}}</td>
-                                    <td >${{object.rate}}</td>
+                                    <td >{{object.rate}}</td>
                                     <td>{{object.created_date|date:"Y-m-d h:i"}}</td>
                                     <td><span
                                             class="badge bg-{{object.get_status.title}}">{{object.get_status.label}}</span>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-sm btn-icon btn-ghost-secondary"
+                                            href="{% url 'dashboard:admin:admin-review-edit' pk=object.pk %}">
+                                            <i class="bi-pencil-square"></i>
+                                        </a>
                                     </td>
 
                                 </tr>
