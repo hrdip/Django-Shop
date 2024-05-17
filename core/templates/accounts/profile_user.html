@@ -10,7 +10,7 @@
         </div>
         <!-- End Heading -->
         <!-- Form -->
-        <form action="." method="post">
+        <form action="." method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <!-- Form -->
             <div class="mb-4">
@@ -33,11 +33,7 @@
                     <div class="form-attachment-btn btn btn-white btn-sm">آپلود عکس
                         {{form.image}}
                     </div>
-                    <!-- End Avatar -->
-
-                    <button type="submit" class="btn btn-primary btn-sm">ارسال </button>
                 </div>
-                
             </div>
             <!-- End Form -->
             <div class="d-grid mb-3">

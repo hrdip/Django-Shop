@@ -53,4 +53,4 @@ class ProfileCreateForm(forms.ModelForm):
         self.fields['phone_number'].widget.attrs['placeholder'] = "تلفن تماس خود را وارد نمایید "
         self.fields['image'].widget.attrs['placeholder'] = "عکس پروفایل خود را اپلود کنید"
         self.fields["phone_number"].widget.attrs['type'] = 'number'
-        self.fields['image'].widget.attrs['type'] = "image"
+        
