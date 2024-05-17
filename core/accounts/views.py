@@ -1,9 +1,34 @@
-from django.shortcuts import render
 from django.contrib.auth import views as auth_views
+from django.urls import reverse_lazy
 from . forms import AuthenticationForm
-from django.core.mail import send_mail
+# register user 
+from django.contrib.auth import authenticate, login
+from django.views.generic.edit import FormView
+from .forms import UserCreateForm
 
-# Create your views here.
+
+class RegisterUserView(FormView):
+    template_name = 'accounts/register_user.html'
+    form_class = UserCreateForm
+    success_url = reverse_lazy('accounts:login')
+
+    def form_valid(self, form):
+        form.save()
+        email = form.cleaned_data['email']
+        password = form.cleaned_data['password1']
+               
+        # Use the custom user model in authenticate
+        user = authenticate( email=email, password=password)
+        login(self.request, user)
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(RegisterUserView, self).get_context_data(**kwargs)
+        context['form'] = self.form_class()
+        return context
+
+
+
 
 class CustomLoginView(auth_views.LoginView):
     template_name = 'accounts/login.html'

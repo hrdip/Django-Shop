@@ -194,3 +194,5 @@ CKEDITOR_CONFIGS = {
 # Payment getway settings
 MERCHANT_ID = config("MERCHANT_ID", default="4ced0ale-4ad8-4309-9668-3ea3ae8e8897")
 SANDBOX_MODE = config("SANDBOX_MODE", default=True, cast=bool)
+
+
