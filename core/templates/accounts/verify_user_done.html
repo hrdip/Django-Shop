@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Form -->
+<div class="container content-space-3 content-space-t-lg-4 content-space-b-lg-3">
+    <div class="flex-grow-1 mx-auto" style="max-width: 28rem;">
+        <!-- Heading -->
+        <div class="text-center mb-5 mb-md-7">
+            <h1 class="h2">لطفا ایمیل استفاده شده برای ثبت نام را بازدید کنید</h1>
+            <p>حساب کاربری شما با موفقیت ساخته شد. برای فعال سازی حساب خود لطفا به ایمیل خود مراجعه نمایید </p>
+        </div>
+        <!-- End Heading -->
+            <div class="text-center">
+                <p>   <a class="link" href="{% url 'website:index' %}">بازگشت به صفحه اصلی </a></p>
+            </div>
+    </div>
+</div>
+<!-- End Form -->
+{% endblock content %}

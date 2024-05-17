@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Form -->
+<div class="container content-space-3 content-space-t-lg-4 content-space-b-lg-3">
+    <div class="flex-grow-1 mx-auto" style="max-width: 28rem;">
+        <!-- Heading -->
+        <div class="text-center mb-5 mb-md-7">
+            <h1 class="h2">ایمیل وارد شده معتبر نمی باشد</h1>
+            <p>لطفا مجددا برای ثبت نام اقدام فرمایید </p>
+        </div>
+        <!-- End Heading -->
+            <div class="text-center">
+                <p>   <a class="link" href="{% url 'website:index' %}">بازگشت به صفحه اصلی </a></p>
+            </div>
+    </div>
+</div>
+<!-- End Form -->
+{% endblock content %}

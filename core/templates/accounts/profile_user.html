@@ -14,21 +14,34 @@
             {% csrf_token %}
             <!-- Form -->
             <div class="mb-4">
-                {{form.email}}
+                {{form.first_name}}
             </div>
             <!-- End Form -->
             <!-- Form -->
             <div class="mb-4">
-                {{form.password1}}
+                {{form.last_name}}
             </div>
             <!-- End Form -->
             <!-- Form -->
             <div class="mb-4">
-                {{form.password2}}
+                {{form.phone_number}}
+            </div>
+            <!-- End Form -->
+            <!-- Form -->
+            <div class="mb-4">
+                <div class="d-grid d-sm-flex gap-2 me-4">
+                    <div class="form-attachment-btn btn btn-white btn-sm">آپلود عکس
+                        {{form.image}}
+                    </div>
+                    <!-- End Avatar -->
+
+                    <button type="submit" class="btn btn-primary btn-sm">ارسال </button>
+                </div>
+                
             </div>
             <!-- End Form -->
             <div class="d-grid mb-3">
-                <button type="submit" class="btn btn-primary btn-lg">ثبت نام </button>
+                <button type="submit" class="btn btn-primary btn-lg"> تکمیل مشخصات </button>
             </div>
             <div class="text-center">
                 <p>   <a class="link" href="{% url 'website:index' %}">بازگشت به صفحه اصلی </a></p>
