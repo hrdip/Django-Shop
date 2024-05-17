@@ -23,6 +23,15 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <!-- we need extra css for each page -->
     {% block extra_css %}
+    <style>
+        body {
+            padding-top: 80px; /* Adjust this value according to your navbar height */
+        }
+        .navbar.fixed-top {
+            background-color: rgb(222, 239, 245); /* Change this to the desired background color */
+        }
+        
+    </style>
     {% endblock extra_css %}
     {% block extra_css_no_compress %}
     {% endblock extra_css_no_compress %}
@@ -30,7 +39,12 @@
 
 <body>
     <!-- ========== HEADER ========== -->
-    <header id="header" class="navbar navbar-expand-lg navbar-end navbar-light">
+    
+
+    <header id="header" class="navbar navbar-expand-lg navbar-end  navbar-light navbar-show-hide fixed-top" data-hs-header-options='{
+        "fixMoment": 500,
+        "fixEffect": "slide"
+      }'>
         <div class="container">
             <nav class="js-mega-menu navbar-nav-wrap">
                 <!-- Default Logo -->
