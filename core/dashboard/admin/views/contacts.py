@@ -13,7 +13,7 @@ from django.db.models import Q
 from django.core import exceptions
 
 
-class AdminContactListView(LoginRequiredMixin,HasAdminAccessPermission, ListView):
+class AdminContactListView(LoginRequiredMixin, HasAdminAccessPermission, ListView):
     title = "لیست تماس ها"
     template_name = "dashboard/admin/contacts/admin-contact-list.html"
     paginate_by = 10
@@ -54,7 +54,7 @@ class AdminContactListView(LoginRequiredMixin,HasAdminAccessPermission, ListView
 
 
 
-class AdminContactDetailView(LoginRequiredMixin,HasAdminAccessPermission, DetailView):
+class AdminContactDetailView(LoginRequiredMixin, HasAdminAccessPermission, DetailView):
     title = "جزئیات تماس"
     template_name = "dashboard/admin/contacts/admin-contact-detail.html"
     

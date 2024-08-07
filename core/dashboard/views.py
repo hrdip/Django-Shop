@@ -7,7 +7,7 @@ from accounts.models import UserType
 
 
 class DashboardHomeView(LoginRequiredMixin, View):
-    # dispatch method, recognize with method are requested and  happend befor go to view or another functions
+    # dispatch method, recognize with method are requested and  happend before go to view or another functions
     def dispatch(self, request, *args, **kwargs):
         # recognize the user are admin or customer and redirect to the correct url
         if request.user.is_authenticated:

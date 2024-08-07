@@ -18,7 +18,6 @@ class NewsLetterView(CreateView):
     http_method_names = ['post']
     model = NewsLetterModel()
     form_class = NewsLetterForm
-    success_url = '/'
 
     def post(self, request):
         form = NewsLetterForm(request.POST)
@@ -32,7 +31,9 @@ class NewsLetterView(CreateView):
         else:
             messages.add_message(request,messages.ERROR,'your ticket didnt submitted')
             return redirect('website:index')
-    
+
+    def get_success_url(self):
+        return reverse_lazy('website:index')
 
 class ContactUsView(View):
     template_name = 'website/contact.html'

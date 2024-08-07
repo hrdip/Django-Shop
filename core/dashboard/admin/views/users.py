@@ -17,7 +17,7 @@ User = get_user_model()
 
 
 
-class AdminUserListView(LoginRequiredMixin,HasAdminAccessPermission, ListView):
+class AdminUserListView(LoginRequiredMixin, HasAdminAccessPermission, ListView):
     title = "لیست کاربران"
     template_name = "dashboard/admin/users/admin-user-list.html"
     paginate_by = 10
@@ -53,7 +53,7 @@ class AdminUserListView(LoginRequiredMixin,HasAdminAccessPermission, ListView):
 
 
 
-class AdminUserDeleteView(LoginRequiredMixin,HasAdminAccessPermission,SuccessMessageMixin, DeleteView):
+class AdminUserDeleteView(LoginRequiredMixin, HasAdminAccessPermission, SuccessMessageMixin, DeleteView):
     title = "حذف کاربر"
     template_name = "dashboard/admin/users/admin-user-delete.html"
     success_url = reverse_lazy("dashboard:admin:admin-user-list")
@@ -62,7 +62,7 @@ class AdminUserDeleteView(LoginRequiredMixin,HasAdminAccessPermission,SuccessMes
         return User.objects.filter(is_superuser=False,type=UserType.customer.value)
     
     
-class AdminUserUpdateView(LoginRequiredMixin,HasAdminAccessPermission,SuccessMessageMixin, UpdateView):
+class AdminUserUpdateView(LoginRequiredMixin, HasAdminAccessPermission, SuccessMessageMixin, UpdateView):
     title = "ویرایش کاربر"
     template_name = "dashboard/admin/users/admin-user-edit.html"
     success_message = "کاربر مورد نظر با موفقیت ویرایش شد"
