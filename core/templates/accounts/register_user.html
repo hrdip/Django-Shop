@@ -10,7 +10,7 @@
         </div>
         <!-- End Heading -->
         <!-- Form -->
-        <form action="." method="post">
+        <form action="{% url 'accounts:register' %}" method="post">
             {% csrf_token %}
             <!-- Form -->
             <div class="mb-4">
@@ -19,12 +19,36 @@
             <!-- End Form -->
             <!-- Form -->
             <div class="mb-4">
-                {{form.password1}}
+                <div class="d-flex justify-content-between align-items-center">
+                    <label class="form-label" for="signupSimpleLoginPassword">کلمه عبور</label>
+                </div>
+                <div class="input-group input-group-merge" >
+                    <input type="password" class="form-control form-control-lg text-center"
+                        name="password1" id="signupSimpleLoginPassword" placeholder="8+ characters required"
+                        aria-label="8+ characters required" required minlength="8" >
+                    <a id="changePassTarget" class="input-group-append input-group-text" href="javascript:;">
+                        <i id="changePassIcon" class="bi-eye"></i>
+                    </a>
+                </div>
+                <span class="invalid-feedback">لطفا یک گذر واژه معتبر وارد کنید.</span>
+                {{ form.password1.errors }}
             </div>
             <!-- End Form -->
             <!-- Form -->
             <div class="mb-4">
-                {{form.password2}}
+                <div class="d-flex justify-content-between align-items-center">
+                    <label class="form-label" for="signupSimpleLoginPassword">تکرار کلمه عبور</label>
+                </div>
+                <div class="input-group input-group-merge" >
+                    <input type="password" class="form-control form-control-lg text-center"
+                        name="password2" id="signupSimpleLoginPassword" placeholder="8+ characters required"
+                        aria-label="8+ characters required" required minlength="8" >
+                    <a id="changePassTarget" class="input-group-append input-group-text" href="javascript:;">
+                        <i id="changePassIcon" class="bi-eye"></i>
+                    </a>
+                </div>
+                <span class="invalid-feedback">لطفا یک گذر واژه معتبر وارد کنید.</span>
+                {{ form.password2.errors }}
             </div>
             <!-- End Form -->
             <div class="d-grid mb-3">

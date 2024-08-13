@@ -74,6 +74,20 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="border-bottom pb-4 mb-4">
+                                    <h5>دسته بندی محصولات</h5>
+                                    <div class="d-grid gap-2">
+                                        <div class="mb-2 mb-sm-0 me-sm-2">
+                                            <select class="form-select form-select-sm" name="category_id"
+                                                id="category-id-filter">
+                                                <option value="" selected>انتخاب دسته بندی</option>
+                                                {% for category in categories %}
+                                                <option value="{{category.id}}">{{category.title}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
     
                                 <div class="border-bottom pb-4 mb-4">
                                     <h5>قیمت</h5>
@@ -90,22 +104,6 @@
                                         </div>
                                     </div>
                                 </div>
-    
-                                <div class="border-bottom pb-4 mb-4">
-                                    <h5>دسته بندی</h5>
-                                    <div class="d-grid gap-2">
-                                        <div class="mb-2 mb-sm-0 me-sm-2">
-                                            <select class="form-select form-select-sm" name="category_id"
-                                                id="category-id-filter">
-                                                <option value="" selected>انتخاب دسته بندی</option>
-                                                {% for category in categories %}
-                                                <option value="{{category.id}}">{{category.title}}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-    
                                 <div class="d-grid">
                                     <button type="submit" class="btn btn-outline-primary btn-transition mb-3">اعمال
                                         فیلتر</button>
@@ -310,8 +308,7 @@
             <div class="row justify-content-lg-between">
                 <!-- Heading -->
                 <div class="mb-5">
-                    <span class="text-cap">ثبت نام</span>
-                    <h2>اخبار جدید را دریافت کنید</h2>
+                    <h2>برای دریافت جدیدترین محصولات و تخفیفات ویژه ایمیل خود را وارد نمایید.</h2>
                 </div>
                 <!-- End Heading -->
 
@@ -329,9 +326,6 @@
                     </div>
                     <!-- End Input Card -->
                 </form>
-
-                <p class="small">می توانید در هر زمانی اشتراک خود را لغو کنید <a href="#">سیاست حفظ حریم خصوصی</a> ما را
-                    بخوانید</p>
             </div>
         </div>
     </div>

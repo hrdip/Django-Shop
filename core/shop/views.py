@@ -62,7 +62,7 @@ class ShopProductGridView(ListView):
             context["total_products"] = self.get_queryset().count()
             context["categories"] = ProductCategoryModel.objects.all()
         return context
-        
+
 
 class ShopProductListView(ListView):
     template_name = 'shop/product-list.html'

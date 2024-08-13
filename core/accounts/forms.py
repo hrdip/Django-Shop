@@ -2,7 +2,8 @@ from django.contrib.auth import forms as auth_forms
 from django.core.exceptions import ValidationError
 from django import forms
 from accounts.models import User, Profile
-
+import re
+from django.utils.translation import gettext_lazy as _
 
 
 class AuthenticationForm (auth_forms.AuthenticationForm):
@@ -19,6 +20,10 @@ class UserCreateForm(auth_forms.UserCreationForm):
     class Meta:
         model = User
         fields = ['email', 'password1', 'password2']
+    
+    error_messages = {
+        "password_mismatch": _("دو پسورد ورودی با همدیگر مطابقت ندارند"),
+    }
 
     def save(self, commit=True):
         user = super(UserCreateForm, self).save(commit=False)
@@ -30,13 +35,10 @@ class UserCreateForm(auth_forms.UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['email'].widget.attrs['class'] = 'form-control'
-        self.fields['password1'].widget.attrs['class'] = 'form-control'
-        self.fields['password2'].widget.attrs['class'] = 'form-control'
         self.fields['email'].widget.attrs['placeholder'] = "یک ایمیل معتبر وارد نمایید"
-        self.fields['password1'].widget.attrs['placeholder'] = "رمز عبور خود را وارد نمایید"
-        self.fields['password2'].widget.attrs['placeholder'] = "تکرار رمز عبور"
 
-
+    
+    
 class ProfileCreateForm(forms.ModelForm):
     class Meta:
         model = Profile

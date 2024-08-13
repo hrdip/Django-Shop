@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block content %}
 <!-- Breadcrumb -->
 <div class="bg-light">
@@ -69,8 +70,22 @@
                                 <div class="d-grid gap-2">
                                     <div class="form-group">
                                         <label class="form-label d-flex" for="search-query-filter">جستو جو</label>
-                                        <input class="form-control" placeholder="واژه مورد نظر را وارد نمایید" type="text"
-                                            name="q" id="search-query-filter">
+                                        <input class="form-control" placeholder="واژه مورد نظر را وارد نمایید"
+                                            type="text" name="q" id="search-query-filter">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="border-bottom pb-4 mb-4">
+                                <h5> دسته بندی محصولات</h5>
+                                <div class="d-grid gap-2">
+                                    <div class="mb-2 mb-sm-0 me-sm-2">
+                                        <select class="form-select form-select-sm" name="category_id"
+                                            id="category-id-filter">
+                                            <option value="" selected>انتخاب دسته بندی</option>
+                                            {% for category in categories %}
+                                            <option value="{{category.id}}">{{category.title}}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -88,21 +103,6 @@
                                         <label class="form-label d-flex" for="max-price-filter">بیشترین قیمت</label>
                                         <input class="form-control" type="number" name="max_price"
                                             placeholder="بیشترین قیمت مد نظر" id="max-price-filter">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="border-bottom pb-4 mb-4">
-                                <h5>دسته بندی</h5>
-                                <div class="d-grid gap-2">
-                                    <div class="mb-2 mb-sm-0 me-sm-2">
-                                        <select class="form-select form-select-sm" name="category_id"
-                                            id="category-id-filter">
-                                            <option value="" selected>انتخاب دسته بندی</option>
-                                            {% for category in categories %}
-                                            <option value="{{category.id}}">{{category.title}}</option>
-                                            {% endfor %}
-                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -177,122 +177,126 @@
 
             <div class="row row-cols-sm-2 row-cols-md-3 mb-10">
                 {% for object in object_list %}
-                    <div class="col mb-4">
-                        <!-- Card -->
-                        <div class="card card-bordered shadow-none text-center h-100">
-                            <div class="card-pinned">
-                                <img class="card-img-top" style="height:200px" src="{{ object.image.url }}" alt="Image Description">
-                                <div class="card-pinned-top-start">
-                                    {% if object.stock == 0 %}
-                                        <span class="badge bg-danger rounded-pill"> در انبار موجود نمی باشد</span>
-                                    {% endif %}
-                                </div>
-                                <div class="card-pinned-top-end">
-                                    {% if request.user.is_authenticated %}
-                                    <button type="button" class="btn btn-outline-secondary btn-xs btn-icon rounded-circle {% if object.id in wishlist_items %} active {% endif %}"
-                                        data-bs-toggle="tooltip" data-bs-placement="top" title="افزودن به علایق" onclick="addToWishlist(this,'{{object.id}}')">
-                                     <i class="bi-heart"  ></i>
-                                    </button>
-                                    {% endif %}
-                                </div>
-                            </div>
-
-                            <div class="card-body">
-                                <div class="mb-2">
-                                    {% for category in  object.category.all %}
-                                        <a class="link-sm link-secondary" href="#"> {{ category.title }}</a>
-                                        <!-- seperated each category with , -->
-                                    {% if not forloop.last %}
-                                    ,
-                                    {% endif %}
-                                    {% endfor %}
-                                </div>
-
-                                <h4 class="card-title">
-                                    <a class="text-dark" href="{% url 'shop:product-detail' slug=object.slug %}">{{ object.title }}</a>
-                                </h4>
-                                {% if object.is_discounted %}
-                                    <p class="card-text text-dark fs-4">
-                                        <span class="formatted-price">{{object.get_price}}$</span>
-                                        <span class="text-body me-1 fs-6 formatted-price text-decoration-line-through">{{object.price}}$</span>
-                                    </p>
-                                {% else %}
-                                    <p class="card-text text-dark fs-4 formatted-price"> {{object.price}}$</p>
-                                {% endif %}
-                                <p class="card-text text-dark fs-4 "> تعداد موجود :{{object.stock}}</p>
-                            </div>
-
-                            <div class="card-footer pt-0">
-                                <!-- Rating -->
-                                <a class="d-inline-flex align-items-center mb-3" href="#">
-                                    <div class="d-flex gap-1 ms-2">
-                                        {% for i in "12345" %}
-                                        {% if i|add:0 <= object.avg_rate %}
-                                            <span><i class="bi bi-star-fill star-rate"></i></span>
-                                        {% else %}
-                                            <span><i class="bi bi-star star-rate"></i></span>
-                                        {% endif %}
-                                        {% endfor %}
-                                    </div>
-                                    <span class="small">{{ object.avg_rate }}</span>
-                                </a>
-                                <!-- End Rating -->
+                <div class="col mb-4">
+                    <!-- Card -->
+                    <div class="card card-bordered shadow-none text-center h-100">
+                        <div class="card-pinned">
+                            <img class="card-img-top" style="height:200px" src="{{ object.image.url }}"
+                                alt="Image Description">
+                            <div class="card-pinned-top-start">
                                 {% if object.stock == 0 %}
-                                    <span class="badge bg-danger rounded-pill btn-sm "> در انبار موجود نمی باشد</span>
-                                {% else %}
-                                    <button type="button"
-                                        class="btn btn-outline-primary btn-sm btn-transition rounded-pill" onclick="addCartItem('{{object.id}}')">افزودن به سبد
-                                    خرید</button>
+                                <span class="badge bg-danger rounded-pill"> در انبار موجود نمی باشد</span>
+                                {% endif %}
+                            </div>
+                            <div class="card-pinned-top-end">
+                                {% if request.user.is_authenticated %}
+                                <button type="button"
+                                    class="btn btn-outline-secondary btn-xs btn-icon rounded-circle {% if object.id in wishlist_items %} active {% endif %}"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" title="افزودن به علایق"
+                                    onclick="addToWishlist(this,'{{object.id}}')">
+                                    <i class="bi-heart"></i>
+                                </button>
                                 {% endif %}
                             </div>
                         </div>
-                        <!-- End Card --> 
-                    </div> 
-                    {% empty %}
-                    <div class="row text-center w-100 py-5">
-                        <p class="text-center">هیچ کالایی برای نمایش وجود ندارد</p>
+
+                        <div class="card-body">
+                            <div class="mb-2">
+                                {% for category in object.category.all %}
+                                <a class="link-sm link-secondary" href="#"> {{ category.title }}</a>
+                                <!-- seperated each category with , -->
+                                {% if not forloop.last %}
+                                ,
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+
+                            <h4 class="card-title">
+                                <a class="text-dark" href="{% url 'shop:product-detail' slug=object.slug %}">{{ object.title }}</a>
+                            </h4>
+                            {% if object.is_discounted %}
+                            <p class="card-text text-dark fs-4">
+                                <span class="formatted-price">{{object.get_price}}$</span>
+                                <span
+                                    class="text-body me-1 fs-6 formatted-price text-decoration-line-through">{{object.price}}$</span>
+                            </p>
+                            {% else %}
+                            <p class="card-text text-dark fs-4 formatted-price"> {{object.price}}$</p>
+                            {% endif %}
+                            <p class="card-text text-dark fs-4 "> تعداد موجود :{{object.stock}}</p>
+                        </div>
+
+                        <div class="card-footer pt-0">
+                            <!-- Rating -->
+                            <a class="d-inline-flex align-items-center mb-3" href="#">
+                                <div class="d-flex gap-1 ms-2">
+                                    {% for i in "12345" %}
+                                    {% if i|add:0 <= object.avg_rate %} <span><i
+                                            class="bi bi-star-fill star-rate"></i></span>
+                                        {% else %}
+                                        <span><i class="bi bi-star star-rate"></i></span>
+                                        {% endif %}
+                                        {% endfor %}
+                                </div>
+                                <span class="small">{{ object.avg_rate }}</span>
+                            </a>
+                            <!-- End Rating -->
+                            {% if object.stock == 0 %}
+                            <span class="badge bg-danger rounded-pill btn-sm "> در انبار موجود نمی باشد</span>
+                            {% else %}
+                            <button type="button" class="btn btn-outline-primary btn-sm btn-transition rounded-pill"
+                                onclick="addCartItem('{{object.id}}')">افزودن به سبد
+                                خرید</button>
+                            {% endif %}
+                        </div>
                     </div>
-                    <!-- End Col -->
+                    <!-- End Card -->
+                </div>
+                {% empty %}
+                <div class="row text-center w-100 py-5">
+                    <p class="text-center">هیچ کالایی برای نمایش وجود ندارد</p>
+                </div>
+                <!-- End Col -->
                 {% endfor %}
             </div>
             <!-- End Row -->
             {% if page_obj.has_other_pages %}
-                <!-- Pagination -->
-                <nav aria-label="Page navigation">
-                    <ul class="pagination justify-content-center">
-                        {% if page_obj.has_previous %}    
-                            <li class="page-item ">
-                                <button class="page-link" onclick="changePage('{{page_obj.previous_page_numberi}}')"  aria-label="Previous">
-                                    <span aria-hidden="true">
-                                        <i class="bi-chevron-double-right small"></i>
-                                    </span>
-                                </button>
-                            </li>
+            <!-- Pagination -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item ">
+                        <button class="page-link" onclick="changePage('{{page_obj.previous_page_numberi}}')"
+                            aria-label="Previous">
+                            <span aria-hidden="true">
+                                <i class="bi-chevron-double-right small"></i>
+                            </span>
+                        </button>
+                    </li>
+                    {% endif %}
+                    {% for i in page_obj.paginator.page_range %}
+                    {% if page_obj.number == i %}
+                    <li class="page-item active">
+                        <a class="page-link">{{ i }}</a>
+                    </li>
+                    <!-- this elif handel only show 2 page number befor and anfter of current page -->
+                    {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %} <li class="page-item">
+                        <button class="page-link" onclick="changePage('{{i}}')">{{ i }}</button>
+                        </li>
                         {% endif %}
-                        {% for i in page_obj.paginator.page_range %}
-                            {% if page_obj.number == i %}
-                                <li class="page-item active">
-                                    <a class="page-link" >{{ i }}</a>
-                                </li>
-                                <!-- this elif handel only show 2 page number befor and anfter of current page -->
-                            {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
-                                <li class="page-item">
-                                    <button class="page-link" onclick="changePage('{{i}}')">{{ i }}</button>
-                                </li>
-                            {% endif %}
                         {% endfor %}
-                        {% if page_obj.has_next %} 
-                            <li class="page-item ">
-                                <button class="page-link"  aria-label="Next">
-                                    <span aria-hidden="true">
-                                        <i class="bi-chevron-double-left small"></i>
-                                    </span>
-                                </button>
-                            </li>
+                        {% if page_obj.has_next %}
+                        <li class="page-item ">
+                            <button class="page-link" aria-label="Next">
+                                <span aria-hidden="true">
+                                    <i class="bi-chevron-double-left small"></i>
+                                </span>
+                            </button>
+                        </li>
                         {% endif %}
-                    </ul>
-                </nav>
-                <!-- End Pagination -->
+                </ul>
+            </nav>
+            <!-- End Pagination -->
             {% endif %}
         </div>
         <!-- End Col -->
@@ -308,8 +312,7 @@
             <div class="row justify-content-lg-between">
                 <!-- Heading -->
                 <div class="mb-5">
-                    <span class="text-cap">ثبت نام</span>
-                    <h2>اخبار جدید را دریافت کنید</h2>
+                    <h2>برای دریافت جدیدترین محصولات و تخفیفات ویژه ایمیل خود را وارد نمایید.</h2>
                 </div>
                 <!-- End Heading -->
 
@@ -320,16 +323,14 @@
                         <div class="input-card-form">
                             <label for="subscribeForm" class="form-label visually-hidden">ایمیل را وارد کنید</label>
                             <input type="email" class="form-control form-control-lg" name="email"
-                                placeholder="ایمیل خود را وارد نمایید" aria-label="ایمیل خود را وارد کنید" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}">
-                                <span class="invalid-feedback">لطفا یک آدرس ایمیل معتبر وارد کنید.</span>
+                                placeholder="ایمیل خود را وارد نمایید" aria-label="ایمیل خود را وارد کنید"
+                                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}">
+                            <span class="invalid-feedback">لطفا یک آدرس ایمیل معتبر وارد کنید.</span>
                         </div>
                         <button type="submit" class="btn btn-primary btn-lg rounded-pill">ثبت نام</button>
                     </div>
                     <!-- End Input Card -->
                 </form>
-
-                <p class="small">می توانید در هر زمانی اشتراک خود را لغو کنید <a href="#">سیاست حفظ حریم خصوصی</a> ما را
-                    بخوانید</p>
             </div>
         </div>
     </div>
@@ -379,7 +380,7 @@
 <!-- 2- jquery listener (listen to select change) and update or add our changes -->
 <script>
 
-    $( document ).ready(function() {
+    $(document).ready(function () {
         let current_url_params = new URLSearchParams(window.location.search)
         $("#page-size-filter").val(current_url_params.get("page_size") || "")
         $("#search-query-filter").val(current_url_params.get("q") || "")
@@ -389,8 +390,8 @@
         $("#order-by-filter").val(current_url_params.get("order_by") || "")
     });
 
-    $('#page-size-filter').change(function() {
-        let current_url_params = new URLSearchParams(window.location.search) 
+    $('#page-size-filter').change(function () {
+        let current_url_params = new URLSearchParams(window.location.search)
         var selectedOption = $(this).val();
         current_url_params.set("page_size", selectedOption)
         let new_url = window.location.pathname + "?" + current_url_params.toString()
